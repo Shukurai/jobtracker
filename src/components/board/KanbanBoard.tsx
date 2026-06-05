@@ -7,7 +7,6 @@ import {
     DragOverlay,
     DragStartEvent,
     MouseSensor,
-    TouchSensor,
     useSensor,
     useSensors,
     useDroppable,
@@ -233,10 +232,7 @@ export default function KanbanBoard({
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: { distance: 8 },
-        }),
-        ...(isMobile ? [] : [useSensor(TouchSensor, {
-            activationConstraint: { delay: 200, tolerance: 8 },
-        })])
+        })
     )
 
     const activeApp = applications.find(a => a.id === activeId) ?? null

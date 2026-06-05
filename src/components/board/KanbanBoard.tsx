@@ -228,13 +228,15 @@ export default function KanbanBoard({
     const [overId, setOverId] = useState<string | null>(null)
     const supabase = createClient()
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: { distance: 8 },
         }),
-        useSensor(TouchSensor, {
+        ...(isMobile ? [] : [useSensor(TouchSensor, {
             activationConstraint: { delay: 200, tolerance: 8 },
-        })
+        })])
     )
 
     const activeApp = applications.find(a => a.id === activeId) ?? null

@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const supabase = createClient()
     const [email, setEmail] = useState<string | null>(null)
     const [menuOpen, setMenuOpen] = useState(false)
-    
+
     useEffect(() => {
         supabase.auth.getUser().then(({ data }) => {
             setEmail(data.user?.email ?? null)
@@ -79,7 +79,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </aside>
 
             {/* Main */}
-            <main className="flex-1 md:ml-55 p-4 md:p-8 pb-24 md:pb-8">
+            <main className="flex-1 md:ml-55 p-4 md:p-8 pb-24 md:pb-8 overflow-x-hidden">
                 {children}
             </main>
 

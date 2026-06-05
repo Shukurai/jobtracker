@@ -1,65 +1,159 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { LayoutDashboard, BarChart2, Bell, Zap, Shield, Globe } from 'lucide-react'
+import Image from 'next/image'
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+export default function LandingPage() {
+    return (
+        <div className="bg-bg text-text min-h-screen">
+
+            {/* Nav */}
+            <nav className="flex items-center justify-between px-10 py-5 border-b border-border">
+                <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg overflow-hidden">
+                        <img src="/logo.png" alt="JobTracker" width={32} height={32} className="rounded-lg" />
+                    </div>
+                    <span className="font-bold text-base">JobTracker</span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <Link href="/login" className="text-muted text-sm no-underline hover:text-text transition-colors">
+                        Sign in
+                    </Link>
+                    <Link href="/login" className="bg-text text-bg px-4 py-2 rounded-lg text-sm font-semibold no-underline hover:bg-accent-hover transition-colors">
+                        Get started
+                    </Link>
+                </div>
+            </nav>
+
+            {/* Hero */}
+            <section className="text-center px-10 pt-24 pb-20">
+                <div className="inline-block bg-surface border border-green-900 rounded-full px-4 py-1.5 text-xs text-muted mb-8">
+                    <div className="flex gap-1">
+                        <div className="text-green-500" >Free to start</div> · No credit card required
+                    </div>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight mb-6">
+                    Stop losing track of<br />
+                    <span className="text-muted">your job applications</span>
+                </h1>
+                <p className="text-lg text-muted max-w-md mx-auto mb-10 leading-relaxed">
+                    A clean Kanban board for your job search. Track every application, see your progress, never miss a follow-up.
+                </p>
+                <div className="flex gap-3 justify-center flex-wrap">
+                    <Link href="/login" className="bg-text text-bg px-7 py-3.5 rounded-xl text-sm font-bold no-underline hover:bg-accent-hover transition-colors">
+                        Start for free →
+                    </Link>
+                    <Link href="#features" className="bg-transparent text-text border border-border px-7 py-3.5 rounded-xl text-sm font-medium no-underline hover:border-muted transition-colors">
+                        See features
+                    </Link>
+                </div>
+            </section>
+
+            {/* Preview */}
+            <section className="px-10 pb-24 max-w-4xl mx-auto">
+                <div className="bg-surface border border-border rounded-2xl p-8 flex gap-3 overflow-x-auto">
+                    {[
+                        { label: 'WISHLIST', color: '#6B7280', items: ['Spotify', 'Figma'] },
+                        { label: 'APPLIED', color: '#6C63FF', items: ['Google', 'Meta'] },
+                        { label: 'INTERVIEW', color: '#3B82F6', items: ['Stripe'] },
+                        { label: 'OFFER', color: '#22C55E', items: ['Linear'] },
+                    ].map(col => (
+                        <div key={col.label} className="min-w-44 flex-1">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="w-2 h-2 rounded-full" style={{ background: col.color }} />
+                                <span className="text-xs text-muted font-semibold tracking-widest">{col.label}</span>
+                            </div>
+                            {col.items.map(item => (
+                                <div key={item} className="bg-bg border border-border rounded-xl p-3 mb-2">
+                                    <p className="text-sm font-semibold mb-1">{item}</p>
+                                    <p className="text-xs text-muted">Frontend Engineer</p>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Features */}
+            <section id="features" className="px-10 py-20 max-w-4xl mx-auto">
+                <h2 className="text-3xl font-bold text-center mb-14 tracking-tight">Everything you need</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[
+                        { icon: LayoutDashboard, title: 'Kanban Board', desc: 'Visual pipeline from wishlist to offer. Drag & drop between stages.' },
+                        { icon: BarChart2, title: 'Stats & Insights', desc: 'Track your response rate, active applications, and success metrics.' },
+                        { icon: Bell, title: 'Follow-up Alerts', desc: 'Get reminded when an application has been silent for too long.' },
+                        { icon: Zap, title: 'Fast & Simple', desc: 'Add an application in seconds. No bloat, no onboarding, just work.' },
+                        { icon: Shield, title: 'Your data is safe', desc: 'Row-level security. Only you can see your applications.' },
+                        { icon: Globe, title: 'Works everywhere', desc: 'Fully responsive. Track your search from any device.' },
+                    ].map(({ icon: Icon, title, desc }) => (
+                        <div key={title} className="bg-surface border border-border rounded-2xl p-6">
+                            <div className="w-9 h-9 bg-bg border border-border rounded-lg flex items-center justify-center mb-4">
+                                <Icon size={16} className="text-text" />
+                            </div>
+                            <h3 className="text-sm font-semibold mb-2">{title}</h3>
+                            <p className="text-xs text-muted leading-relaxed">{desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Pricing */}
+            <section className="px-10 py-20 max-w-xl mx-auto text-center">
+                <h2 className="text-3xl font-bold mb-4 tracking-tight">Simple pricing</h2>
+                <p className="text-muted text-sm mb-12">Start free, upgrade when you need more.</p>
+                <div className="grid grid-cols-2 gap-4">
+                    {[
+                        {
+                            name: 'Free', price: '$0', period: 'forever',
+                            features: ['Up to 15 applications', 'Kanban board', 'Basic stats'],
+                            cta: 'Get started', highlight: false,
+                        },
+                        {
+                            name: 'Pro', price: '$5', period: 'per month',
+                            features: ['Unlimited applications', 'Follow-up reminders', 'Export to CSV', 'Priority support'],
+                            cta: 'Start Pro', highlight: true,
+                        },
+                    ].map(plan => (
+                        <div
+                            key={plan.name}
+                            className={`rounded-2xl p-7 text-left ${plan.highlight ? 'bg-text' : 'bg-surface border border-border'}`}
+                        >
+                            <p className={`text-xs font-semibold mb-2 ${plan.highlight ? 'text-bg opacity-60' : 'text-muted'}`}>{plan.name}</p>
+                            <p className={`text-4xl font-extrabold tracking-tight mb-1 ${plan.highlight ? 'text-bg' : 'text-text'}`}>{plan.price}</p>
+                            <p className={`text-xs mb-6 ${plan.highlight ? 'text-bg opacity-50' : 'text-muted'}`}>{plan.period}</p>
+                            <ul className="mb-6 flex flex-col gap-2.5">
+                                {plan.features.map(f => (
+                                    <li key={f} className={`text-xs flex items-center gap-2 ${plan.highlight ? 'text-bg' : 'text-text'}`}>
+                                        <span className={plan.highlight ? 'text-bg' : 'text-success'}>✓</span> {f}
+                                    </li>
+                                ))}
+                            </ul>
+                            <Link
+                                href="/login"
+                                className={`block text-center py-2.5 rounded-lg text-xs font-bold no-underline transition-colors
+                  ${plan.highlight ? 'bg-bg text-text hover:opacity-90' : 'bg-text text-bg hover:bg-accent-hover'}`}
+                            >
+                                {plan.cta}
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* CTA */}
+            <section className="px-10 py-20 text-center">
+                <h2 className="text-4xl font-extrabold mb-4 tracking-tight">Ready to get organized?</h2>
+                <p className="text-muted text-sm mb-8">Join job seekers who track smarter.</p>
+                <Link href="/login" className="bg-text text-bg px-8 py-3.5 rounded-xl text-sm font-bold no-underline hover:bg-accent-hover transition-colors">
+                    Start for free →
+                </Link>
+            </section>
+
+            {/* Footer */}
+            <footer className="border-t border-border px-10 py-6 flex justify-between items-center">
+                <span className="text-xs text-muted">© 2026 JobTracker</span>
+                <span className="text-xs text-muted">Built for job seekers</span>
+            </footer>
+
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    )
 }

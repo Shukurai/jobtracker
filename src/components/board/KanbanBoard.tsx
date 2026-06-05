@@ -87,7 +87,7 @@ function DraggableCard({
       onPointerDown={() => { hasMoved.current = false }}
       onPointerMove={() => { hasMoved.current = true }}
       onPointerUp={() => { if (!hasMoved.current) onClick() }}
-            className={`bg-surface border border-border rounded-xl p-4 cursor-grab active:cursor-grabbing hover:border-muted transition-all group touch-none select-none
+            className={`bg-surface border border-border rounded-xl p-4 cursor-grab active:cursor-grabbing hover:border-muted transition-all group select-none
         ${isDragging ? 'opacity-20' : 'opacity-100'}`}
     >
       <div className="flex items-start justify-between gap-2 mb-1">

@@ -53,19 +53,21 @@ export default function BoardPage() {
                     className="flex-1 min-w-0 px-3.5 py-2 bg-surface border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                 />
 
-                {isAtLimit && (
-                    <div className="flex items-center gap-2 md:gap-3 md:px-4 md:py-2 md:bg-surface md:border md:border-warning/30 md:rounded-lg">
+                {isAtLimit ? (
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                        <p className="hidden md:block text-xs text-warning">Free limit reached (15/15)</p>
                         <UpgradeButton className="text-xs px-3 py-1.5 md:px-4 md:py-2" />
                     </div>
+                ) : (
+                    <button
+                        onClick={() => setShowAdd(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-text text-bg rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors cursor-pointer flex-shrink-0"
+                    >
+                        <Plus size={15} />
+                        <span className="hidden md:inline">Add</span>
+                        <span className="md:hidden">+</span>
+                    </button>
                 )}
-                <button
-                    onClick={() => setShowAdd(true)}
-                    disabled={isAtLimit}
-                    className="flex items-center gap-2 px-4 py-2 bg-text text-bg rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
-                >
-                    <Plus size={15} />
-                    Add
-                </button>
             </div>
         
 

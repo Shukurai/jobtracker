@@ -55,7 +55,6 @@ export default function BoardPage() {
 
                 {isAtLimit && (
                     <div className="flex items-center gap-2 md:gap-3 md:px-4 md:py-2 md:bg-surface md:border md:border-warning/30 md:rounded-lg">
-                        <p className="hidden md:block text-xs text-warning">Free limit reached (15/15)</p>
                         <UpgradeButton className="text-xs px-3 py-1.5 md:px-4 md:py-2" />
                     </div>
                 )}

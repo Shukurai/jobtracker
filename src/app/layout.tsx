@@ -12,7 +12,7 @@ export const metadata: Metadata = {
         type: 'website',
         images: [
             {
-                url: 'https://jobtracker-three-delta.vercel.app/opengraph-image',
+                url: 'https://jobtracker-three-delta.vercel.app/og-image.png',
                 width: 1200,
                 height: 630,
                 alt: 'JobTracker',

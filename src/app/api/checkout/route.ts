@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createCheckout } from '@lemonsqueezy/lemonsqueezy.js'
 import { createClient } from '@/lib/supabase/server'
 
-const { lemonSqueezySetup } = await import('@lemonsqueezy/lemonsqueezy.js')
-
 export async function POST() {
+    const { lemonSqueezySetup, createCheckout } = await import('@lemonsqueezy/lemonsqueezy.js')
+
     lemonSqueezySetup({ apiKey: process.env.LEMONSQUEEZY_API_KEY! })
 
     const supabase = await createClient()

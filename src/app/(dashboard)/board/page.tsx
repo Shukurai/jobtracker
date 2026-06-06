@@ -37,7 +37,7 @@ export default function BoardPage() {
     return (
         <div>
             <div className="flex items-center justify-between mb-8 gap-4">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 min-w-0">
                     <h1 className="text-xl font-bold text-text">Board</h1>
                     <p className="text-xs text-muted mt-0.5">{applications.length} applications</p>
                 </div>
@@ -46,7 +46,7 @@ export default function BoardPage() {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search..."
-                    className="flex-1 max-w-xs px-3.5 py-2 bg-surface border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
+                    className="flex-1 min-w-0 px-3.5 py-2 bg-surface border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                 />
 
                 <button

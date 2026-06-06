@@ -14,8 +14,8 @@ export async function POST() {
     }
 
     const checkout = await createCheckout(
-        process.env.LEMONSQUEEZY_STORE_ID!,
-        process.env.LEMONSQUEEZY_VARIANT_ID!,
+        Number(process.env.LEMONSQUEEZY_STORE_ID!),
+        Number(process.env.LEMONSQUEEZY_VARIANT_ID!),
         {
             checkoutData: {
                 email: user.email,

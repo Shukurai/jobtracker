@@ -87,7 +87,7 @@ function DraggableCard({
       onPointerDown={() => { hasMoved.current = false }}
       onPointerMove={() => { hasMoved.current = true }}
       onPointerUp={() => { if (!hasMoved.current) onClick() }}
-            className={`bg-surface border border-border rounded-xl p-4 cursor-grab active:cursor-grabbing hover:border-muted transition-all group select-none
+            className={`w-full bg-surface border border-border rounded-xl p-4 cursor-grab active:cursor-grabbing hover:border-muted transition-all group select-none
         ${isDragging ? 'opacity-20' : 'opacity-100'}`}
     >
       <div className="flex items-start justify-between gap-2 mb-1">
@@ -172,7 +172,7 @@ function DroppableColumn({
     const { setNodeRef } = useDroppable({ id: col.id })
 
     return (
-        <div className={`md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
+        <div className={`w-full md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
             <div className="flex items-center gap-2 mb-3 px-1">
                 <span className="w-2 h-2 rounded-full" style={{ background: col.color }} />
                 <span className="text-xs font-semibold text-muted uppercase tracking-wider">
@@ -281,7 +281,7 @@ export default function KanbanBoard({
             onDragOver={(e: DragOverEvent) => setOverId(e.over?.id as string ?? null)}
             onDragEnd={handleDragEnd}
         >
-            <div className="flex flex-col gap-6 md:flex-row md:gap-4 md:overflow-x-auto pb-4">
+            <div className="flex flex-col gap-6 md:flex-row md:gap-4 md:overflow-x-auto pb-4 w-full">
                 {COLUMNS.map(col => (
                     <DroppableColumn
                         key={col.id}

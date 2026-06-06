@@ -138,6 +138,40 @@ export default function LandingPage() {
                     ))}
                 </div>
             </section>
+            
+            {/* FAQ */}
+            <section className="px-10 py-20 max-w-2xl mx-auto">
+                <h2 className="text-3xl font-bold text-center mb-14 tracking-tight">FAQ</h2>
+                <div className="flex flex-col gap-4">
+                    {[
+                        {
+                            q: 'Is JobTracker really free?',
+                            a: 'Yes — up to 15 applications are completely free, no credit card required. Upgrade to Pro for unlimited applications and extra features.'
+                        },
+                        {
+                            q: 'How is this different from a spreadsheet?',
+                            a: 'JobTracker gives you a visual Kanban board, automatic date tracking, color-coded urgency, and company logos — all without setup. A spreadsheet requires manual work every time.'
+                        },
+                        {
+                            q: 'Is my data safe?',
+                            a: 'Yes. Your data is stored securely with row-level security — only you can access your applications. We never sell or share your data.'
+                        },
+                        {
+                            q: 'Can I use it on mobile?',
+                            a: 'Yes — JobTracker is fully responsive and works on any device.'
+                        },
+                        {
+                            q: 'Can I cancel anytime?',
+                            a: 'Yes. No contracts, no commitments. Cancel your Pro subscription anytime from your account settings.'
+                        },
+                    ].map((item, i) => (
+                        <div key={i} className="bg-surface border border-border rounded-2xl px-6 py-5">
+                            <p className="text-sm font-semibold text-text mb-2">{item.q}</p>
+                            <p className="text-xs text-muted leading-relaxed">{item.a}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
 
             {/* CTA */}
             <section className="px-10 py-20 text-center">
@@ -149,8 +183,12 @@ export default function LandingPage() {
             </section>
 
             {/* Footer */}
-            <footer className="border-t border-border px-10 py-6 flex justify-between items-center">
+            <footer className="border-t border-border px-10 py-6 flex justify-between items-center flex-wrap gap-4">
                 <span className="text-xs text-muted">© 2026 JobTracker</span>
+                <div className="flex gap-6">
+                    <Link href="/privacy" className="text-xs text-muted hover:text-text no-underline transition-colors">Privacy</Link>
+                    <Link href="/terms" className="text-xs text-muted hover:text-text no-underline transition-colors">Terms</Link>
+                </div>
                 <span className="text-xs text-muted">Built for job seekers</span>
             </footer>
 

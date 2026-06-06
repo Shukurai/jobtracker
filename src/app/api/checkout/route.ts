@@ -27,5 +27,8 @@ export async function POST() {
         }
     )
 
+    console.log('checkout:', JSON.stringify(checkout))
+    console.log('url:', checkout.data?.data.attributes.url)
+
     return NextResponse.json({ url: checkout.data?.data.attributes.url })
 }

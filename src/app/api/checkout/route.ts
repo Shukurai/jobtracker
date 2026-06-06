@@ -27,8 +27,14 @@ export async function POST() {
         }
     )
 
-    console.log('checkout:', JSON.stringify(checkout))
-    console.log('url:', checkout.data?.data.attributes.url)
+    console.log('full checkout:', JSON.stringify(checkout, null, 2))
 
-    return NextResponse.json({ url: checkout.data?.data.attributes.url })
+    const url = checkout.data?.data?.attributes?.url ??
+        (checkout as any)?.data?.attributes?.url ??
+        (checkout as any)?.url
+
+    console.log('resolved url:', url)
+    console.log('errors:', JSON.stringify(checkout.error))
+
+    return NextResponse.json({ url })
 }

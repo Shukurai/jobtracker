@@ -27,16 +27,10 @@ export async function POST() {
         }
     )
 
-    console.log('full checkout:', JSON.stringify(checkout, null, 2))
-
     const url = checkout.data?.data?.attributes?.url ??
         (checkout as any)?.data?.attributes?.url ??
         (checkout as any)?.url
 
-    console.log('resolved url:', url)
-    console.log('errors:', JSON.stringify(checkout.error))
-    console.log('api key exists:', !!process.env.LEMONSQUEEZY_API_KEY)
-    console.log('api key length:', process.env.LEMONSQUEEZY_API_KEY?.length)
-    
+
     return NextResponse.json({ url })
 }

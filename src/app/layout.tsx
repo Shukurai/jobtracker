@@ -10,6 +10,14 @@ export const metadata: Metadata = {
         url: 'https://jobtracker-three-delta.vercel.app',
         siteName: 'JobTracker',
         type: 'website',
+        images: [
+            {
+                url: 'https://jobtracker-three-delta.vercel.app/opengraph-image',
+                width: 1200,
+                height: 630,
+                alt: 'JobTracker',
+            }
+        ],
     },
     twitter: {
         card: 'summary',

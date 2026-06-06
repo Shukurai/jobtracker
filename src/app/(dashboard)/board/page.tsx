@@ -60,7 +60,9 @@ export default function BoardPage() {
         
 
             {loading ? (
-                <p className="text-muted text-sm">Loading...</p>
+                <div className="flex items-center justify-center mt-32">
+                    <div className="loader" />
+                </div>
             ) : applications.length === 0 ? (
                 <div className="flex flex-col items-center justify-center mt-32 gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-surface border border-border flex items-center justify-center text-2xl">

@@ -31,7 +31,11 @@ export default function StatsPage() {
 
 
 
-    if (loading) return <p className="text-muted text-sm">Loading...</p>
+    if (loading) return (
+        <div className="flex items-center justify-center mt-32">
+            <div className="loader" />
+        </div>
+    )
 
     const total = applications.length
     const offers = applications.filter(a => a.status === 'offer').length

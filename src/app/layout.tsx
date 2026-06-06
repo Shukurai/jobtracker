@@ -3,7 +3,19 @@ import './globals.css'
 
 export const metadata: Metadata = {
     title: 'JobTracker',
-    description: 'Track your job applications',
+    description: 'Track your job applications. A clean Kanban board for your job search.',
+    openGraph: {
+        title: 'JobTracker',
+        description: 'Track your job applications. A clean Kanban board for your job search.',
+        url: 'https://jobtracker-three-delta.vercel.app',
+        siteName: 'JobTracker',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary',
+        title: 'JobTracker',
+        description: 'Track your job applications. A clean Kanban board for your job search.',
+    },
 }
 
 export const viewport: Viewport = {

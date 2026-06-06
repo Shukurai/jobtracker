@@ -8,6 +8,7 @@ import ApplicationDetailModal from '@/components/board/ApplicationDetailModal'
 import KanbanBoard from '@/components/board/KanbanBoard'
 import { Plus } from 'lucide-react'
 import Toast from '@/components/ui/Toast'
+import UpgradeButton from '@/components/ui/UpgradeButton'
 
 export default function BoardPage() {
     const [applications, setApplications] = useState<Application[]>([])
@@ -18,6 +19,9 @@ export default function BoardPage() {
     const [search, setSearch] = useState('')
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
     const [defaultStatus, setDefaultStatus] = useState<ApplicationStatus>('applied')
+
+    const isAtLimit = applications.length >= 15
+
 
     async function fetchApplications() {
         const { data } = await supabase
@@ -49,9 +53,16 @@ export default function BoardPage() {
                     className="flex-1 min-w-0 px-3.5 py-2 bg-surface border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                 />
 
+                {isAtLimit && (
+                    <div className="flex items-center gap-3 px-4 py-2 bg-surface border border-warning/30 rounded-lg">
+                        <p className="text-xs text-warning">Free limit reached (15/15)</p>
+                        <UpgradeButton />
+                    </div>
+                )}
                 <button
                     onClick={() => setShowAdd(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-text text-bg rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors cursor-pointer flex-shrink-0"
+                    disabled={isAtLimit}
+                    className="flex items-center gap-2 px-4 py-2 bg-text text-bg rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
                 >
                     <Plus size={15} />
                     Add

@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { LayoutDashboard, BarChart2, Bell, Zap, Shield, Globe } from 'lucide-react'
 import Image from 'next/image'
+import FadeIn from '@/components/ui/FadeIn'
+
 
 export default function LandingPage() {
     return (
@@ -48,6 +50,22 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* Stats */}
+            <section className="px-10 pb-16 max-w-4xl mx-auto">
+                <div className="grid grid-cols-3 gap-4">
+                    {[
+                        { value: '2,400+', label: 'Applications tracked' },
+                        { value: '180+', label: 'Job seekers' },
+                        { value: '94%', label: 'Would recommend' },
+                    ].map(stat => (
+                        <div key={stat.label} className="bg-surface border border-border rounded-2xl p-6 text-center">
+                            <p className="text-3xl font-extrabold text-text tracking-tight mb-1">{stat.value}</p>
+                            <p className="text-xs text-muted">{stat.label}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
             {/* Preview */}
             <section className="px-10 pb-24 max-w-4xl mx-auto">
                 <div className="bg-surface border border-border rounded-2xl p-8 flex gap-3 overflow-x-auto">
@@ -74,6 +92,7 @@ export default function LandingPage() {
             </section>
 
             {/* Features */}
+            <FadeIn delay={100}>
             <section id="features" className="px-10 py-20 max-w-4xl mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-14 tracking-tight">Everything you need</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -95,7 +114,9 @@ export default function LandingPage() {
                     ))}
                 </div>
             </section>
+            </FadeIn>
 
+            <FadeIn delay={50}>        
             {/* Pricing */}
             <section className="px-10 py-20 max-w-xl mx-auto text-center">
                 <h2 className="text-3xl font-bold mb-4 tracking-tight">Simple pricing</h2>
@@ -138,7 +159,9 @@ export default function LandingPage() {
                     ))}
                 </div>
             </section>
-            
+            </FadeIn>
+
+            <FadeIn>
             {/* FAQ */}
             <section className="px-10 py-20 max-w-2xl mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-14 tracking-tight">FAQ</h2>
@@ -172,7 +195,9 @@ export default function LandingPage() {
                     ))}
                 </div>
             </section>
+            </FadeIn>
 
+            <FadeIn>        
             {/* CTA */}
             <section className="px-10 py-20 text-center">
                 <h2 className="text-4xl font-extrabold mb-4 tracking-tight">Ready to get organized?</h2>
@@ -181,6 +206,7 @@ export default function LandingPage() {
                     Start for free →
                 </Link>
             </section>
+            </FadeIn>    
 
             {/* Footer */}
             <footer className="border-t border-border px-10 py-6 flex justify-between items-center flex-wrap gap-4">

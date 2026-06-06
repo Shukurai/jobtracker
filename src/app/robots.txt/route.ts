@@ -8,7 +8,7 @@ Disallow: /board
 Disallow: /stats
 Disallow: /settings
 
-Sitemap: https://jobtracker-three-delta.vercel.app/sitemap.xml`,
+Sitemap: https://jobtracker-three-delta.vercel.app/sitemap`,
         { headers: { 'Content-Type': 'text/plain' } }
     )
 }

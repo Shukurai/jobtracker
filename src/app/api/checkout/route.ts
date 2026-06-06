@@ -35,6 +35,8 @@ export async function POST() {
 
     console.log('resolved url:', url)
     console.log('errors:', JSON.stringify(checkout.error))
-
+    console.log('api key exists:', !!process.env.LEMONSQUEEZY_API_KEY)
+    console.log('api key length:', process.env.LEMONSQUEEZY_API_KEY?.length)
+    
     return NextResponse.json({ url })
 }

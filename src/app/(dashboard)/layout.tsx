@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { LayoutDashboard, BarChart2, LogOut, Menu, X, Settings } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import ExportButtonStandalone from '@/components/board/ExportButtonStandalone'
 
 const navItems = [
     { href: '/board', label: 'Board', icon: LayoutDashboard },
@@ -77,6 +78,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                 <div className="flex flex-col gap-2 border-t border-border pt-4">
                     <div className="flex items-center gap-2.5 px-3 py-2">
+                        {isPro && <ExportButtonStandalone />}
                         <div className="w-7 h-7 rounded-full bg-border flex items-center justify-center text-xs font-semibold text-text flex-shrink-0">
                             {avatar}
                         </div>
@@ -87,6 +89,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             </span>
                         )}
                     </div>
+                    
                     <button
                         onClick={handleLogout}
                         className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-muted hover:bg-surface-hover hover:text-text transition-all w-full bg-transparent border-none cursor-pointer"
@@ -133,6 +136,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </Link>
               )
             })}
+            {isPro && <ExportButtonStandalone />}
             <button
               onClick={handleLogout}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-danger hover:bg-surface-hover transition-colors bg-transparent border-none cursor-pointer w-full"

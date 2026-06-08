@@ -9,7 +9,6 @@ import KanbanBoard from '@/components/board/KanbanBoard'
 import { Plus } from 'lucide-react'
 import Toast from '@/components/ui/Toast'
 import UpgradeButton from '@/components/ui/UpgradeButton'
-import ExportButton from '@/components/board/ExportButton'
 
 export default function BoardPage() {
     const [applications, setApplications] = useState<Application[]>([])
@@ -69,24 +68,20 @@ export default function BoardPage() {
                     className="flex-1 min-w-0 px-3.5 py-2 bg-surface border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                 />
 
-                <div className="flex items-center gap-2 flex-shrink-0">
-                    {isPro && <ExportButton applications={applications} />}
-                    {isAtLimit && !isPro ? (
-                        <div className="flex items-center gap-3">
-                            <p className="hidden md:block text-xs text-warning">Free limit reached (15/15)</p>
-                            <UpgradeButton className="text-xs px-3 py-1.5 md:px-4 md:py-2" />
-                        </div>
-                    ) : !isAtLimit || isPro ? (
-                        <button
-                            onClick={() => setShowAdd(true)}
-                            className="flex items-center gap-2 px-4 py-2 bg-text text-bg rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
-                        >
-                            <Plus size={15} />
-                            <span className="hidden md:inline">Add</span>
-                            <span className="md:hidden">+</span>
-                        </button>
-                    ) : null}
-                </div>
+                {isAtLimit && !isPro ? (
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                        <p className="hidden md:block text-xs text-warning">Free limit reached (15/15)</p>
+                        <UpgradeButton className="text-xs px-3 py-1.5 md:px-4 md:py-2" />
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => setShowAdd(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-text text-bg rounded-lg text-sm font-semibold hover:bg-accent-hover transition-colors cursor-pointer flex-shrink-0"
+                    >
+                        <Plus size={15} />
+                        <span className="hidden md:inline">Add</span>
+                    </button>
+                )}
             </div>
         
 

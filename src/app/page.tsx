@@ -52,15 +52,15 @@ export default function LandingPage() {
 
             {/* Stats */}
             <section className="px-10 pb-16 max-w-4xl mx-auto">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-3 mb-8">
                     {[
                         { value: '2,400+', label: 'Applications tracked' },
                         { value: '180+', label: 'Job seekers' },
                         { value: '94%', label: 'Would recommend' },
                     ].map(stat => (
                         <div key={stat.label} className="bg-surface border border-border rounded-2xl p-6 text-center">
-                            <p className="text-3xl font-extrabold text-text tracking-tight mb-1">{stat.value}</p>
-                            <p className="text-xs text-muted">{stat.label}</p>
+                            <p className="text-2xl md:text-3xl font-extrabold text-text tracking-tight mb-1">{stat.value}</p>
+                            <p className="text-xs text-muted text-center">{stat.label}</p>
                         </div>
                     ))}
                 </div>

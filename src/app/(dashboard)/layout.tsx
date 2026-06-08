@@ -161,7 +161,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                         <span className="text-xs text-warning">{15 - appCount} left</span>
                                     )}
                                 </div>
-                                <div className="relative group inline-flex w-full">
+                                <div className="group relative inline-flex w-full">
                                     <div className="h-1 bg-border rounded-full overflow-hidden w-full cursor-pointer">
                                         <div
                                             className="h-full rounded-full transition-all"

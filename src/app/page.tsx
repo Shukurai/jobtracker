@@ -67,27 +67,13 @@ export default function LandingPage() {
             </section>
 
             {/* Preview */}
-            <section className="px-10 pb-24 max-w-4xl mx-auto">
-                <div className="bg-surface border border-border rounded-2xl p-8 flex gap-3 overflow-x-auto">
-                    {[
-                        { label: 'WISHLIST', color: '#6B7280', items: ['Spotify', 'Figma'] },
-                        { label: 'APPLIED', color: '#6C63FF', items: ['Google', 'Meta'] },
-                        { label: 'INTERVIEW', color: '#3B82F6', items: ['Stripe'] },
-                        { label: 'OFFER', color: '#22C55E', items: ['Linear'] },
-                    ].map(col => (
-                        <div key={col.label} className="min-w-44 flex-1">
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="w-2 h-2 rounded-full" style={{ background: col.color }} />
-                                <span className="text-xs text-muted font-semibold tracking-widest">{col.label}</span>
-                            </div>
-                            {col.items.map(item => (
-                                <div key={item} className="bg-bg border border-border rounded-xl p-3 mb-2">
-                                    <p className="text-sm font-semibold mb-1">{item}</p>
-                                    <p className="text-xs text-muted">Frontend Engineer</p>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
+            <section className="px-10 pb-24 max-w-5xl mx-auto">
+                <div className="bg-surface border border-border rounded-2xl overflow-hidden shadow-2xl">
+                    <img
+                        src="/screenshot.png"
+                        alt="JobTracker board preview"
+                        className="w-full h-auto"
+                    />
                 </div>
             </section>
 

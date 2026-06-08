@@ -33,11 +33,26 @@ export default function BoardPage() {
     }
 
     useEffect(() => { fetchApplications() }, [])
+    useEffect(() => {
+        async function fetchProfile() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            const { data } = await supabase
+                .from('profiles')
+                .select('is_pro')
+                .eq('id', user.id)
+                .single()
+            setIsPro(data?.is_pro ?? false)
+        }
+        fetchProfile()
+    }, [])
 
     const filtered = applications.filter(a =>
         a.company.toLowerCase().includes(search.toLowerCase()) ||
         a.position.toLowerCase().includes(search.toLowerCase())
     )
+
+    console.log('isPro:', isPro, 'isAtLimit:', isAtLimit)
     return (
         <div>
             <div className="flex items-center justify-between mb-8 gap-4">

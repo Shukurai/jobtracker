@@ -30,6 +30,7 @@ export default function BoardPage() {
             .order('created_at', { ascending: false })
         setApplications(data ?? [])
         setLoading(false)
+        window.dispatchEvent(new Event('applications-changed'))
     }
 
     useEffect(() => { fetchApplications() }, [])

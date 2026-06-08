@@ -22,7 +22,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [menuOpen, setMenuOpen] = useState(false)
     const [isPro, setIsPro] = useState(false)
     const [appCount, setAppCount] = useState(0)
-
+    const [tooltipVisible, setTooltipVisible] = useState(false)
+    
     useEffect(() => {
         async function loadCount() {
             const { data: { user } } = await supabase.auth.getUser()
@@ -153,34 +154,37 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             >
         
             {/* Прогресс бар — только для free на мобиле */}
-                        {!isPro && (
-                            <div className="px-3 py-2 mb-2">
-                                <div className="flex items-center justify-between mb-1.5">
-                                    <span className="text-xs text-muted">{appCount} / 15</span>
-                                    {appCount >= 10 && (
-                                        <span className="text-xs text-warning">{15 - appCount} left</span>
-                                    )}
-                                </div>
-                                <div className="group relative inline-flex w-full">
-                                    <div className="h-1 bg-border rounded-full overflow-hidden w-full cursor-pointer">
-                                        <div
-                                            className="h-full rounded-full transition-all"
-                                            style={{
-                                                width: `${Math.min((appCount / 15) * 100, 100)}%`,
-                                                background: appCount >= 15 ? '#EF4444' : appCount >= 10 ? '#F59E0B' : '#22C55E'
-                                            }}
-                                        />
-                                    </div>
-                                    {/* Tooltip */}
-                                    <span className="absolute pointer-events-none opacity-0 group-hover:opacity-100 px-3 py-1.5 text-xs font-medium text-text bg-surface-hover border border-border rounded-lg shadow-lg transition-all duration-200 whitespace-nowrap z-50 bottom-full left-1/2 -translate-x-1/2 -translate-y-2 mb-1">
-                                        {appCount >= 15
-                                            ? 'Limit reached — upgrade to Pro'
-                                            : `${15 - appCount} applications remaining`}
-                                        <span className="absolute w-2 h-2 bg-surface-hover border-r border-b border-border transform rotate-45 bottom-[-5px] left-1/2 -translate-x-1/2" />
-                                    </span>
-                                </div>
+            {!isPro && (
+                <div className="px-3 py-2 mb-2">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs text-muted">{appCount} / 15</span>
+                        {appCount >= 10 && (
+                            <span className="text-xs text-warning">{15 - appCount} left</span>
+                        )}
+                    </div>
+                    <div
+                        className="relative w-full"
+                        onMouseEnter={() => setTooltipVisible(true)}
+                        onMouseLeave={() => setTooltipVisible(false)}
+                    >
+                        <div className="h-1 bg-border rounded-full overflow-hidden w-full cursor-pointer">
+                            <div
+                                className="h-full rounded-full transition-all"
+                                style={{
+                                    width: `${Math.min((appCount / 15) * 100, 100)}%`,
+                                    background: appCount >= 15 ? '#EF4444' : appCount >= 10 ? '#F59E0B' : '#22C55E'
+                                }}
+                            />
+                        </div>
+                        {tooltipVisible && (
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-text bg-surface border border-border rounded-lg shadow-lg whitespace-nowrap z-[100]">
+                                {appCount >= 15 ? 'Limit reached — upgrade to Pro' : `${15 - appCount} applications remaining`}
+                                <div className="absolute w-2 h-2 bg-surface border-r border-b border-border rotate-45 bottom-[-5px] left-1/2 -translate-x-1/2" />
                             </div>
                         )}
+                    </div>
+                </div>
+            )}
             {navItems.map(({ href, label, icon: Icon }) => {
               const active = pathname === href
               return (

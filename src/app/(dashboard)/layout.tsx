@@ -27,6 +27,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         async function loadCount() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
+
+            setEmail(user.email ?? null)
+
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('is_pro')
+                .eq('id', user.id)
+                .single()
+            setIsPro(profile?.is_pro ?? false)
+
             const { count } = await supabase
                 .from('applications')
                 .select('*', { count: 'exact', head: true })
@@ -45,7 +55,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
 
     const avatar = email ? email[0].toUpperCase() : '?'
-    
+
+    console.log('email state:', email)
     return (
         <div className="flex min-h-screen bg-bg">
 
@@ -102,7 +113,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <div className="w-7 h-7 rounded-full bg-border flex items-center justify-center text-xs font-semibold text-text flex-shrink-0">
                             {avatar}
                         </div>
-                        <span className="text-xs text-muted truncate flex-1">{avatar ?? '...'}</span>
+                        <span className="text-xs text-muted truncate flex-1">{email ?? '...'}</span>
                         {isPro && (
                             <span className="text-xs font-bold text-warning bg-warning/10 px-1.5 py-0.5 rounded-md flex-shrink-0">
                                 PRO

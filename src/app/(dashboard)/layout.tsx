@@ -77,8 +77,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </nav>
 
                 <div className="flex flex-col gap-2 border-t border-border pt-4">
+
+                    {isPro && <ExportButtonStandalone />}
                     <div className="flex items-center gap-2.5 px-3 py-2">
-                        {isPro && <ExportButtonStandalone />}
                         <div className="w-7 h-7 rounded-full bg-border flex items-center justify-center text-xs font-semibold text-text flex-shrink-0">
                             {avatar}
                         </div>

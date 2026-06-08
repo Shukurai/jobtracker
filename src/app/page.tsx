@@ -99,7 +99,7 @@ export default function LandingPage() {
                     {[
                         { icon: LayoutDashboard, title: 'Kanban Board', desc: 'Visual pipeline from wishlist to offer. Drag & drop between stages.' },
                         { icon: BarChart2, title: 'Stats & Insights', desc: 'Track your response rate, active applications, and success metrics.' },
-                        { icon: Bell, title: 'Follow-up Alerts', desc: 'Get reminded when an application has been silent for too long.' },
+                        { icon: Bell, title: 'Early adopter pricing', desc: 'Subscribe now and lock in $4.99/month forever — price will increase as we add more features.' },
                         { icon: Zap, title: 'Fast & Simple', desc: 'Add an application in seconds. No bloat, no onboarding, just work.' },
                         { icon: Shield, title: 'Your data is safe', desc: 'Row-level security. Only you can see your applications.' },
                         { icon: Globe, title: 'Works everywhere', desc: 'Fully responsive. Track your search from any device.' },
@@ -129,8 +129,8 @@ export default function LandingPage() {
                             cta: 'Get started', highlight: false,
                         },
                         {
-                            name: 'Pro', price: '$5', period: 'per month',
-                            features: ['Unlimited applications', 'Follow-up reminders', 'Export to CSV', 'Priority support'],
+                            name: 'Pro', price: '$4.99', period: 'per month',
+                            features: ['Unlimited applications', 'Export to Excel', 'Priority support', 'Early adopter price — locked in forever'],
                             cta: 'Start Pro', highlight: true,
                         },
                     ].map(plan => (

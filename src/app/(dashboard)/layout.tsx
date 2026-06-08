@@ -21,11 +21,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [email, setEmail] = useState<string | null>(null)
     const [menuOpen, setMenuOpen] = useState(false)
     const [isPro, setIsPro] = useState(false)
+    const [appCount, setAppCount] = useState(0)
 
     useEffect(() => {
-        supabase.auth.getUser().then(({ data }) => {
+        supabase.auth.getUser().then(async ({ data }) => {
             setEmail(data.user?.email ?? null)
             if (data.user) {
+                const { count } = await supabase
+                    .from('applications')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('user_id', data.user.id)
+                setAppCount(count ?? 0)
+
                 supabase
                     .from('profiles')
                     .select('is_pro')
@@ -75,7 +82,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         )
                     })}
                 </nav>
-
+                {!isPro && (
+                    <div className="px-3 py-2 mb-2">
+                        <div className="flex items-center justify-between mb-1.5">
+                            <span className="text-xs text-muted">{appCount} / 15</span>
+                            {appCount >= 10 && (
+                                <span className="text-xs text-warning">{15 - appCount} left</span>
+                            )}
+                        </div>
+                        <div className="h-1 bg-border rounded-full overflow-hidden">
+                            <div
+                                className="h-full rounded-full transition-all"
+                                style={{
+                                    width: `${Math.min((appCount / 15) * 100, 100)}%`,
+                                    background: appCount >= 15 ? '#EF4444' : appCount >= 10 ? '#F59E0B' : '#22C55E'
+                                }}
+                            />
+                        </div>
+                    </div>
+                )}        
                 <div className="flex flex-col gap-2 border-t border-border pt-4">
 
                     {isPro && <ExportButtonStandalone />}
@@ -118,10 +143,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Menu overlay */}
       {menuOpen && (
         <div className="md:hidden fixed inset-0 z-40" onClick={() => setMenuOpen(false)}>
-          <div
-            className="absolute bottom-24 right-6 bg-surface border border-border rounded-2xl p-2 flex flex-col gap-1 min-w-40"
-            onClick={e => e.stopPropagation()}
-          >
+            <div
+                className="absolute bottom-24 right-6 bg-surface border border-border rounded-2xl p-2 flex flex-col gap-1 min-w-40"
+                onClick={e => e.stopPropagation()}
+            >
+        
+            {/* Прогресс бар — только для free на мобиле */}
+            {!isPro && (
+                <div className="px-4 py-3 border-b border-border mb-1">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs text-muted">{appCount} / 15</span>
+                        {appCount >= 10 && (
+                            <span className="text-xs text-warning">{15 - appCount} left</span>
+                        )}
+                    </div>
+                    <div className="h-1 bg-border rounded-full overflow-hidden">
+                        <div
+                            className="h-full rounded-full transition-all"
+                            style={{
+                                width: `${Math.min((appCount / 15) * 100, 100)}%`,
+                                background: appCount >= 15 ? '#EF4444' : appCount >= 10 ? '#F59E0B' : '#22C55E'
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+
             {navItems.map(({ href, label, icon: Icon }) => {
               const active = pathname === href
               return (

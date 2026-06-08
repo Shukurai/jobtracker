@@ -177,9 +177,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             />
                         </div>
                         {tooltipVisible && (
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-text bg-surface border border-border rounded-lg shadow-lg whitespace-nowrap z-[100]">
-                                {appCount >= 15 ? 'Limit reached — upgrade to Pro' : `${15 - appCount} applications remaining`}
-                                <div className="absolute w-2 h-2 bg-surface border-r border-b border-border rotate-45 bottom-[-5px] left-1/2 -translate-x-1/2" />
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg whitespace-nowrap z-[9999]">
+                                test tooltip
                             </div>
                         )}
                     </div>

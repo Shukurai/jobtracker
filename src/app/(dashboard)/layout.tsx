@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [isPro, setIsPro] = useState(false)
     const [appCount, setAppCount] = useState(0)
     const [tooltipVisible, setTooltipVisible] = useState(false)
-    
+
     useEffect(() => {
         async function loadCount() {
             const { data: { user } } = await supabase.auth.getUser()
@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 .from('profiles')
                 .select('is_pro')
                 .eq('id', user.id)
-                .single()
+                .maybeSingle()
             setIsPro(profile?.is_pro ?? false)
 
             const { count } = await supabase
@@ -61,7 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="flex min-h-screen bg-bg">
 
             {/* Sidebar — только на md+ */}
-            <aside className="hidden md:flex w-55 min-h-screen bg-surface border-r border-border flex-col px-3 py-6 fixed top-0 left-0">
+            <aside className="hidden md:flex w-55 min-h-screen bg-surface border-r border-border flex-col px-3 py-6 fixed top-0 left-0 overflow-visible">
                 <div className="flex items-center gap-2.5 px-2 mb-8">
                     <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
                         <img src="/icon.png" alt="JobTracker" className="w-full h-full object-contain" />

@@ -42,7 +42,7 @@ export default function BoardPage() {
                 .from('profiles')
                 .select('is_pro')
                 .eq('id', user.id)
-                .single()
+                .maybeSingle()
             setIsPro(data?.is_pro ?? false)
         }
         fetchProfile()

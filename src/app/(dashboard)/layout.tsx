@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
 
     const avatar = email ? email[0].toUpperCase() : '?'
-
+    
     return (
         <div className="flex min-h-screen bg-bg">
 
@@ -102,7 +102,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <div className="w-7 h-7 rounded-full bg-border flex items-center justify-center text-xs font-semibold text-text flex-shrink-0">
                             {avatar}
                         </div>
-                        <span className="text-xs text-muted truncate flex-1">{email ?? '...'}</span>
+                        <span className="text-xs text-muted truncate flex-1">{avatar ?? '...'}</span>
                         {isPro && (
                             <span className="text-xs font-bold text-warning bg-warning/10 px-1.5 py-0.5 rounded-md flex-shrink-0">
                                 PRO

@@ -19,7 +19,7 @@ export default function BoardPage() {
     const [search, setSearch] = useState('')
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
     const [defaultStatus, setDefaultStatus] = useState<ApplicationStatus>('applied')
-
+    const [isPro, setIsPro] = useState(false)
     const isAtLimit = applications.length >= 15
 
 
@@ -53,7 +53,7 @@ export default function BoardPage() {
                     className="flex-1 min-w-0 px-3.5 py-2 bg-surface border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                 />
 
-                {isAtLimit ? (
+                {isAtLimit && !isPro ? (
                     <div className="flex items-center gap-3 flex-shrink-0">
                         <p className="hidden md:block text-xs text-warning">Free limit reached (15/15)</p>
                         <UpgradeButton className="text-xs px-3 py-1.5 md:px-4 md:py-2" />

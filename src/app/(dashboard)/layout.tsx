@@ -24,25 +24,48 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [appCount, setAppCount] = useState(0)
 
     useEffect(() => {
-        supabase.auth.getUser().then(async ({ data }) => {
-            setEmail(data.user?.email ?? null)
-            if (data.user) {
-                const { count } = await supabase
-                    .from('applications')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('user_id', data.user.id)
-                setAppCount(count ?? 0)
+        async function init() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
 
-                supabase
-                    .from('profiles')
-                    .select('is_pro')
-                    .eq('id', data.user.id)
-                    .single()
-                    .then(({ data: profile }) => {
-                        setIsPro(profile?.is_pro ?? false)
-                    })
-            }
-        })
+            setEmail(user.email ?? null)
+
+            // Загрузи профиль
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('is_pro')
+                .eq('id', user.id)
+                .single()
+            setIsPro(profile?.is_pro ?? false)
+
+            // Загрузи количество заявок
+            const { count } = await supabase
+                .from('applications')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_id', user.id)
+            setAppCount(count ?? 0)
+
+            // Realtime подписка на изменения
+            const channel = supabase
+                .channel('applications-count')
+                .on('postgres_changes', {
+                    event: '*',
+                    schema: 'public',
+                    table: 'applications',
+                    filter: `user_id=eq.${user.id}`,
+                }, async () => {
+                    const { count: newCount } = await supabase
+                        .from('applications')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', user.id)
+                    setAppCount(newCount ?? 0)
+                })
+                .subscribe()
+
+            return () => { supabase.removeChannel(channel) }
+        }
+
+        init()
     }, [])
 
     async function handleLogout() {

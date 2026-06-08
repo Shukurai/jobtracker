@@ -80,7 +80,6 @@ export default function BoardPage() {
                     >
                         <Plus size={15} />
                         <span className="hidden md:inline">Add</span>
-                        <span className="md:hidden">+</span>
                     </button>
                 )}
             </div>

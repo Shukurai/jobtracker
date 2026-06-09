@@ -135,3 +135,17 @@ textarea {
     opacity: 1;
     transform: translateY(0);
 }
+
+.custom-checkbox-input:checked+.custom-checkbox-wrapper .custom-checkbox {
+    background-color: #1a1a1a;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.23) 0px -4px 1px 0px inset, rgba(255, 255, 255, 0.1) 0px -1px 1px 0px, rgba(0, 0, 0, 0.17) 0px 2px 4px 1px;
+}
+
+.custom-checkbox-input:checked+.custom-checkbox-wrapper .custom-checkbox .inner {
+    transform: translateY(-2px);
+}
+
+.custom-checkbox-input {
+    display: none;
+}

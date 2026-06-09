@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { ApplicationStatus, COLUMNS } from '@/types'
+import ToggleCheckbox from '@/components/ui/ToggleCheckbox'
 
 interface Props {
     onClose: () => void
@@ -154,13 +155,11 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                         />
                         {urlError && <p className="text-danger text-xs">{urlError}</p>}
                         <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                                type="checkbox"
+                            <ToggleCheckbox
                                 checked={autoName}
-                                onChange={e => setAutoName(e.target.checked)}
-                                className="w-3.5 h-3.5 accent-white cursor-pointer"
+                                onChange={setAutoName}
+                                label="Auto-fill company"
                             />
-                            <span className="text-xs text-muted">Auto-fill company name from URL</span>
                         </label>
                     </div>
 

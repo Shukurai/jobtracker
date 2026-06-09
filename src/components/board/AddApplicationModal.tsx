@@ -33,6 +33,7 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
     const supabase = createClient()
     const [urlError, setUrlError] = useState<string | null>(null)
     const [autoName, setAutoName] = useState(true)
+    const [workType, setWorkType] = useState<'remote' | 'hybrid' | 'onsite' | null>(null)
 
     function extractCompanyFromUrl(url: string): string {
         try {
@@ -68,6 +69,7 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
             status,
             notes: notes || null,
             applied_at: appliedAt || null,
+            work_type: workType,
         })
 
         if (error) setError(error.message)
@@ -190,7 +192,28 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                             onChange={e => setAppliedAt(e.target.value)}
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                         />
-                    </div>        
+                    </div>    
+                    {/* TAGS */}
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs text-muted">Work type <span className="text-muted opacity-50">(optional)</span></label>
+                        <div className="flex gap-2">
+                            {(['remote', 'hybrid', 'onsite'] as const).map(type => (
+                                <button
+                                    key={type}
+                                    type="button"
+                                    onClick={() => setWorkType(workType === type ? null : type)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border
+                    ${workType === type
+                                            ? 'bg-text text-bg border-text'
+                                            : 'bg-transparent text-muted border-border hover:border-muted hover:text-text'
+                                        }`}
+                                >
+                                    {type}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Notes</label>
                         <textarea

@@ -37,6 +37,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
     const [urlError, setUrlError] = useState<string | null>(null)
     const [showConfirm, setShowConfirm] = useState(false)
 
+    const [workType, setWorkType] = useState<'remote' | 'hybrid' | 'onsite' | null>(application.work_type ?? null)
+
     const supabase = createClient()
 
     async function handleSave(e: React.FormEvent) {
@@ -46,7 +48,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
 
         const { error } = await supabase
             .from('applications')
-            .update({ company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null })
+            .update({
+                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType })
             .eq('id', application.id)
             
         if (error) setError(error.message)
@@ -152,6 +155,28 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                         />
                     </div>            
+
+                    {/* TAGS */}
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs text-muted">Work type <span className="opacity-50">(optional)</span></label>
+                        <div className="flex gap-2">
+                            {(['remote', 'hybrid', 'onsite'] as const).map(type => (
+                                <button
+                                    key={type}
+                                    type="button"
+                                    onClick={() => setWorkType(workType === type ? null : type)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border
+                    ${workType === type
+                                            ? 'bg-text text-bg border-text'
+                                            : 'bg-transparent text-muted border-border hover:border-muted hover:text-text'
+                                        }`}
+                                >
+                                    {type}
+                                </button>
+                            ))}
+                        </div>
+                    </div> 
+
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Notes</label>
                         <textarea

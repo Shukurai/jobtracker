@@ -110,8 +110,20 @@ function DraggableCard({
         )}
       </div>
 
-      <p className="text-xs text-muted mb-3 leading-tight">{application.position}</p>
+        <div className="flex justify-between items-center">
+                <p className="text-xs text-muted mt-2 mb-2 leading-tight">{application.position}</p>
 
+                {application.work_type && (
+                    <span className={`text-xs items-center px-2 py-0.5 rounded-full font-medium inline-block
+        ${application.work_type === 'remote' ? 'bg-success/15 text-success' :
+                            application.work_type === 'hybrid' ? 'bg-info/15 text-info' :
+                                'bg-muted/15 text-muted'}`}
+                    >
+                        {application.work_type}
+                    </span>
+                )}
+        </div>
+        
       <div className="flex items-center justify-between">
         {/*<span
           className="text-xs px-2 py-0.5 rounded-full font-medium"

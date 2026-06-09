@@ -31,6 +31,18 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
     const [appliedAt, setAppliedAt] = useState(new Date().toISOString().split('T')[0])
     const supabase = createClient()
     const [urlError, setUrlError] = useState<string | null>(null)
+    const [autoName, setAutoName] = useState(true)
+
+    function extractCompanyFromUrl(url: string): string {
+        try {
+            const hostname = new URL(url).hostname
+            const domain = hostname.replace('www.', '').split('.')[0]
+            return domain.charAt(0).toUpperCase() + domain.slice(1)
+        } catch {
+            return ''
+        }
+    }
+
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -126,6 +138,10 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                             value={url}
                             onChange={e => {
                                 setUrl(e.target.value)
+                                if (autoName && e.target.value) {
+                                    const extracted = extractCompanyFromUrl(e.target.value)
+                                    if (extracted) setCompany(extracted)
+                                }
                                 if (e.target.value && !isValidUrl(e.target.value)) {
                                     setUrlError('Invalid URL — must start with https://')
                                 } else {
@@ -134,9 +150,18 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                             }}
                             placeholder="https://..."
                             className={`w-full px-3.5 py-2.5 bg-bg border rounded-lg text-text text-sm outline-none transition-colors
-      ${urlError ? 'border-danger' : 'border-border focus:border-muted'}`}
+                ${urlError ? 'border-danger' : 'border-border focus:border-muted'}`}
                         />
                         {urlError && <p className="text-danger text-xs">{urlError}</p>}
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={autoName}
+                                onChange={e => setAutoName(e.target.checked)}
+                                className="w-3.5 h-3.5 accent-white cursor-pointer"
+                            />
+                            <span className="text-xs text-muted">Auto-fill company name from URL</span>
+                        </label>
                     </div>
 
                     <div className="flex flex-col gap-1.5">

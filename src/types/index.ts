@@ -18,6 +18,7 @@ export interface Application {
     created_at: string
     updated_at: string
     work_type?: 'remote' | 'hybrid' | 'onsite' | null
+    source?: string | null
 }
 
 export interface Column {

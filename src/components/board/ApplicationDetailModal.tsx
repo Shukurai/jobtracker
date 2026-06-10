@@ -39,6 +39,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
 
     const [workType, setWorkType] = useState<'remote' | 'hybrid' | 'onsite' | null>(application.work_type ?? null)
 
+    const [source, setSource] = useState<string>(application.source ?? '')
+
     const supabase = createClient()
 
     async function handleSave(e: React.FormEvent) {
@@ -49,7 +51,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         const { error } = await supabase
             .from('applications')
             .update({
-                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType })
+                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType, source: source })
             .eq('id', application.id)
             
         if (error) setError(error.message)
@@ -176,6 +178,26 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             ))}
                         </div>
                     </div> 
+
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs text-muted">Source <span className="opacity-50">(optional)</span></label>
+                        <div className="flex flex-wrap gap-2">
+                            {['LinkedIn', 'Indeed', 'Company site', 'Referral', 'Other'].map(s => (
+                                <button
+                                    key={s}
+                                    type="button"
+                                    onClick={() => setSource(source === s ? '' : s)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border
+                    ${source === s
+                                            ? 'bg-text text-bg border-text'
+                                            : 'bg-transparent text-muted border-border hover:border-muted hover:text-text'
+                                        }`}
+                                >
+                                    {s}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Notes</label>

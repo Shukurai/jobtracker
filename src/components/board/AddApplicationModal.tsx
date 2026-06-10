@@ -34,6 +34,7 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
     const [urlError, setUrlError] = useState<string | null>(null)
     const [autoName, setAutoName] = useState(true)
     const [workType, setWorkType] = useState<'remote' | 'hybrid' | 'onsite' | null>(null)
+    const [source, setSource] = useState<string>('')
 
     function extractCompanyFromUrl(url: string): string {
         try {
@@ -70,6 +71,7 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
             notes: notes || null,
             applied_at: appliedAt || null,
             work_type: workType,
+            source: source || null,
         })
 
         if (error) setError(error.message)
@@ -209,6 +211,26 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                                         }`}
                                 >
                                     {type}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs text-muted">Source <span className="opacity-50">(optional)</span></label>
+                        <div className="flex flex-wrap gap-2">
+                            {['LinkedIn', 'Indeed', 'Company site', 'Referral', 'Other'].map(s => (
+                                <button
+                                    key={s}
+                                    type="button"
+                                    onClick={() => setSource(source === s ? '' : s)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border
+                    ${source === s
+                                            ? 'bg-text text-bg border-text'
+                                            : 'bg-transparent text-muted border-border hover:border-muted hover:text-text'
+                                        }`}
+                                >
+                                    {s}
                                 </button>
                             ))}
                         </div>

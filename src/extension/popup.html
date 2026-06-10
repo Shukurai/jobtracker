@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 320px;
+      background: #090909;
+      color: #f0f0f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo { width: 24px; height: 24px; border-radius: 6px; }
+    .title { font-size: 14px; font-weight: 700; }
+
+    .toggle {
+      display: flex;
+      background: #111;
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 16px;
+      border: 1px solid #222;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 6px;
+      border: none;
+      background: transparent;
+      color: #6B7280;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .toggle-btn.active {
+      background: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 11px; color: #6B7280; margin-bottom: 4px; }
+    .field input, .field select {
+      width: 100%;
+      padding: 8px 10px;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 6px;
+      color: #f0f0f0;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus { border-color: #555; }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background: #f0f0f0;
+      color: #090909;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 4px;
+    }
+
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .status {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 6px;
+    }
+
+    .status.success { background: #22C55E22; color: #22C55E; }
+    .status.error { background: #EF444422; color: #EF4444; }
+
+    .not-supported {
+      text-align: center;
+      color: #6B7280;
+      font-size: 12px;
+      padding: 20px 0;
+    }
+
+    .login-prompt {
+      text-align: center;
+      font-size: 12px;
+      color: #6B7280;
+      padding: 12px 0;
+    }
+
+    .login-prompt a {
+      color: #f0f0f0;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icon.png" class="logo" />
+    <span class="title">JobTracker</span>
+  </div>
+
+  <div id="login-prompt" class="login-prompt" style="display:none">
+    <p>Please <a href="https://jobtracker-three-delta.vercel.app/login" target="_blank">sign in</a> to JobTracker first</p>
+  </div>
+
+  <div id="main" style="display:none">
+    <div class="toggle">
+      <button class="toggle-btn active" id="btn-auto">⚡ Auto</button>
+      <button class="toggle-btn" id="btn-controlled">✏️ Controlled</button>
+    </div>
+
+    <div id="not-supported" class="not-supported" style="display:none">
+      <p>Open a job on LinkedIn or Indeed</p>
+    </div>
+
+    <div id="auto-view">
+      <div id="auto-preview" style="margin-bottom:12px; padding:10px; background:#111; border:1px solid #222; border-radius:8px; font-size:12px;">
+        <div style="font-weight:600; margin-bottom:2px;" id="preview-position">—</div>
+        <div style="color:#6B7280;" id="preview-company">—</div>
+      </div>
+      <button class="btn" id="auto-add-btn">Add to JobTracker</button>
+    </div>
+
+    <div id="controlled-view" style="display:none">
+      <div class="field">
+        <label>Company *</label>
+        <input type="text" id="company" placeholder="Google" />
+      </div>
+      <div class="field">
+        <label>Position *</label>
+        <input type="text" id="position" placeholder="Frontend Developer" />
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="status">
+          <option value="wishlist">Wishlist</option>
+          <option value="applied" selected>Applied</option>
+          <option value="phone_screen">Phone Screen</option>
+          <option value="interview">Interview</option>
+          <option value="offer">Offer</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <button class="btn" id="controlled-add-btn">Add to JobTracker</button>
+    </div>
+
+    <div id="status-msg" class="status" style="display:none"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

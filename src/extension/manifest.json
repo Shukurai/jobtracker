@@ -1,0 +1,50 @@
+{
+    "manifest_version": 3,
+    "name": "JobTracker",
+    "version": "1.0.0",
+    "description": "Add job applications to JobTracker with one click",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "cookies"
+    ],
+    "host_permissions": [
+        "https://www.linkedin.com/*",
+        "https://www.indeed.com/*",
+        "https://jobtracker-three-delta.vercel.app/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icon.png",
+            "32": "icon.png",
+            "48": "icon.png",
+            "128": "icon.png"
+        }
+    },
+    "icons": {
+        "16": "icon.png",
+        "32": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.linkedin.com/jobs/*",
+                "https://*.indeed.com/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://jobtracker-three-delta.vercel.app/*"
+            ],
+            "js": [
+                "auth-bridge.js"
+            ]
+        }
+    ]
+}

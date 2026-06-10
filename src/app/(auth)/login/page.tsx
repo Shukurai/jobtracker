@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
+declare const chrome: any
+
 export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -26,9 +28,16 @@ export default function LoginPage() {
             if (error) setError(error.message)
             else setEmailSent(true)
         } else {
-            const { error } = await supabase.auth.signInWithPassword({ email, password })
+            const { error, data } = await supabase.auth.signInWithPassword({ email, password })
             if (error) setError(error.message)
-            else router.push('/board')
+            else {
+                // Сохраняем токен для расширения
+                const session = data.session
+                if (session && typeof chrome !== 'undefined' && chrome.storage) {
+                    chrome.storage.local.set({ access_token: session.access_token })
+                }
+                router.push('/board')
+            }
         }
 
         setLoading(false)

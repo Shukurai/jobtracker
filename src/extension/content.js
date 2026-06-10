@@ -4,8 +4,10 @@ function parseJobData() {
     let position = ''
 
     if (url.includes('linkedin.com')) {
-        position = document.querySelector('h1')?.innerText?.trim() || ''
-
+        position =
+            document.querySelector('a[href*="/jobs/view/"]')?.innerText?.trim() ||
+            document.querySelector('h1')?.innerText?.trim() ||
+            ''
         company =
             document.querySelector('.job-details-jobs-unified-top-card__company-name a')?.innerText?.trim() ||
             document.querySelector('.jobs-unified-top-card__company-name a')?.innerText?.trim() ||
@@ -14,6 +16,7 @@ function parseJobData() {
             ''
     }
 
+    // Indeed
     if (url.includes('indeed.com')) {
         company = document.querySelector('[data-testid="inlineHeader-companyName"] span')?.innerText?.trim() || ''
         position = document.querySelector('[data-testid="jobsearch-JobInfoHeader-title"]')?.innerText?.trim() || ''

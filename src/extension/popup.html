@@ -115,26 +115,55 @@
   </style>
 </head>
 <body>
-  <div class="header">
+  <div class="header flex justify-between" style="cursor:pointer" id="header-link">
     <img src="icon.png" class="logo" />
-    <span class="title">JobTracker</span>
+    <span class="title">JobTracker -> Open Tab</span>
   </div>
-
   <div id="login-prompt" class="login-prompt" style="display:none">
     <p>Please <a href="https://jobtracker-three-delta.vercel.app/login" target="_blank">sign in</a> to JobTracker first</p>
   </div>
 
   <div id="main" style="display:none">
+    
     <div class="toggle">
       <button class="toggle-btn active" id="btn-auto">⚡ Auto</button>
       <button class="toggle-btn" id="btn-controlled">✏️ Controlled</button>
     </div>
-
+    
     <div id="not-supported" class="not-supported" style="display:none">
       <p>Open a job on LinkedIn or Indeed</p>
     </div>
 
     <div id="auto-view">
+      <div style="margin-bottom: 5px; display: flex; align-items: center; gap: 6px;">
+        <p style="color: #6B7280; font-size: 12px;">Doesn't work? Try refreshing the page</p>
+        <div style="position: relative; display: inline-flex;" id="hint-wrap">
+          <span id="hint-icon" style="
+                  width: 16px; height: 16px; border-radius: 50%;
+                  background: #222; border: 1px solid #333;
+                  color: #6B7280; font-size: 10px; font-weight: 700;
+                  display: flex; align-items: center; justify-content: center;
+                  cursor: default; user-select: none;
+              ">?</span>
+          <div id="hint-tooltip" style="
+                  display: none;
+                  position: absolute;
+                  bottom: 22px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background: #1a1a1a;
+                  border: 1px solid #333;
+                  border-radius: 8px;
+                  padding: 8px 10px;
+                  font-size: 11px;
+                  color: #aaa;
+                  width: 200px;
+                  line-height: 1.5;
+                  z-index: 10;
+              ">LinkedIn and Indeed occasionally update their pages, which may break auto-detection. We're already working on
+            it!</div>
+        </div>
+      </div>
       <div id="auto-preview" style="margin-bottom:12px; padding:10px; background:#111; border:1px solid #222; border-radius:8px; font-size:12px;">
         <div style="font-weight:600; margin-bottom:2px;" id="preview-position">—</div>
         <div style="color:#6B7280;" id="preview-company">—</div>
@@ -154,8 +183,8 @@
       <div class="field">
         <label>Status</label>
         <select id="status">
-          <option value="wishlist">Wishlist</option>
-          <option value="applied" selected>Applied</option>
+          <option value="wishlist" selected>Wishlist</option>
+          <option value="applied" >Applied</option>
           <option value="phone_screen">Phone Screen</option>
           <option value="interview">Interview</option>
           <option value="offer">Offer</option>

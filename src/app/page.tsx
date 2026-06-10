@@ -2,9 +2,13 @@ import Link from 'next/link'
 import { LayoutDashboard, BarChart2, Bell, Zap, Shield, Globe } from 'lucide-react'
 import Image from 'next/image'
 import FadeIn from '@/components/ui/FadeIn'
+import { createClient } from '@/lib/supabase/server'
 
 
-export default function LandingPage() {
+export default async function LandingPage() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    const isLoggedIn = !!user
     return (
         <div className="bg-bg text-text min-h-screen">
 
@@ -17,12 +21,20 @@ export default function LandingPage() {
                     <span className="font-bold text-base">JobTracker</span>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Link href="/login" className="text-muted text-sm no-underline hover:text-text transition-colors">
-                        Sign in
-                    </Link>
-                    <Link href="/login" className="bg-text text-bg px-4 py-2 rounded-lg text-sm font-semibold no-underline hover:bg-accent-hover transition-colors">
-                        Get started
-                    </Link>
+                    {isLoggedIn ? (
+                        <Link href="/board" className="bg-text text-bg px-4 py-2 rounded-lg text-sm font-semibold no-underline hover:bg-accent-hover transition-colors">
+                            To Dashboard →
+                        </Link>
+                    ) : (
+                        <>
+                            <Link href="/login" className="text-muted text-sm no-underline hover:text-text transition-colors">
+                                Sign in
+                            </Link>
+                            <Link href="/login" className="bg-text text-bg px-4 py-2 rounded-lg text-sm font-semibold no-underline hover:bg-accent-hover transition-colors">
+                                Get started
+                            </Link>
+                        </>
+                    )}
                 </div>
             </nav>
 
@@ -76,7 +88,40 @@ export default function LandingPage() {
                     />
                 </div>
             </section>
-
+            {/* Chrome Extension */}
+            <FadeIn delay={50}>
+                <section className="px-10 py-20 max-w-4xl mx-auto">
+                    <div className="bg-surface border border-border rounded-2xl p-10 flex flex-col md:flex-row items-center gap-10">
+                        <div className="flex-1">
+                            <div className="inline-flex items-center gap-2 bg-warning/10 border border-warning/20 rounded-full px-3 py-1 mb-6">
+                                <span className="text-warning text-xs font-semibold">Chrome Extension</span>
+                            </div>
+                            <h2 className="text-3xl font-bold tracking-tight mb-4">Save jobs with one click</h2>
+                            <p className="text-muted text-sm leading-relaxed mb-8">
+                                Browse LinkedIn or Indeed and add any job to your board instantly — no copy-pasting. The extension auto-fills the company name and position for you.
+                            </p>
+                            <a
+                            href="#"
+                            className="inline-flex items-center gap-2 bg-text text-bg px-6 py-3 rounded-xl text-sm font-bold no-underline hover:opacity-90 transition-opacity"
+                            >
+                            🧩 Add to Chrome — it's free
+                        </a>
+                    </div>
+                    <div className="flex flex-col gap-3 flex-shrink-0">
+                        {[
+                            { icon: '🔍', text: 'Open any job on LinkedIn or Indeed' },
+                            { icon: '⚡', text: 'Click the JobTracker extension' },
+                            { icon: '✓', text: 'Job saved to your Wishlist instantly' },
+                        ].map(({ icon, text }) => (
+                            <div key={text} className="flex items-center gap-3 bg-bg border border-border rounded-xl px-4 py-3">
+                                <span className="text-lg">{icon}</span>
+                                <span className="text-sm text-muted">{text}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        </FadeIn>            
             {/* Features */}
             <FadeIn delay={100}>
             <section id="features" className="px-10 py-20 max-w-4xl mx-auto">

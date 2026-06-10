@@ -6,11 +6,13 @@
     "permissions": [
         "activeTab",
         "storage",
-        "cookies"
+        "cookies",
+        "tabs"
     ],
     "host_permissions": [
         "https://www.linkedin.com/*",
         "https://www.indeed.com/*",
+        "https://*.indeed.com/*",
         "https://jobtracker-three-delta.vercel.app/*"
     ],
     "action": {
@@ -47,4 +49,5 @@
             ]
         }
     ]
+    
 }

@@ -65,7 +65,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
                         <img src="/icon.png" alt="JobTracker" className="w-full h-full object-contain" />
                     </div>
-                    <span className="font-bold text-base text-text">JobTracker</span>
+                    <Link href="/" className="font-bold text-base text-text no-underline hover:text-muted transition-colors">
+                        JobTracker
+                    </Link>
                 </div>
 
                 <nav className="flex flex-col gap-1 flex-1">
@@ -120,7 +122,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
                     </div>
                 )}
-
+                {/* Get Extension */}
+                <a href="#" className="flex items-center gap-2.5 px-3 py-2 mx-0 mb-2 rounded-lg no-underline border border-warning/30 bg-warning/5 hover:bg-warning/10 transition-all"
+                >
+                    <span className="text-base">🧩</span>
+                    <span className="text-xs font-semibold text-warning">Get Chrome Extension</span>
+                </a>
                 <div className="flex flex-col gap-2 border-t border-border pt-4">
                     {isPro && <ExportButtonStandalone />}
                     <div className="flex items-center gap-2.5 px-3 py-2">

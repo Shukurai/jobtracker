@@ -12,8 +12,22 @@ export default function SettingsPage() {
     const [passwordMsg, setPasswordMsg] = useState<{ text: string; ok: boolean } | null>(null)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
+    const [showClearConfirm, setShowClearConfirm] = useState(false)
+    const [loadingClear, setLoadingClear] = useState(false)
+
+
     const supabase = createClient()
     const router = useRouter()
+
+    async function handleClearApplications() {
+        setLoadingClear(true)
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+        await supabase.from('applications').delete().eq('user_id', user.id)
+        setShowClearConfirm(false)
+        setLoadingClear(false)
+        window.dispatchEvent(new Event('applications-changed'))
+    }
 
     async function handleChangePassword(e: React.FormEvent) {
         e.preventDefault()
@@ -88,7 +102,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Delete account */}
-            <div className="bg-surface border border-danger/30 rounded-2xl p-6">
+            <div className="bg-surface border border-danger/30 rounded-2xl p-6 mb-4">
                 <h2 className="text-sm font-semibold text-danger mb-2">Danger zone</h2>
                 <p className="text-xs text-muted mb-4 leading-relaxed">
                     Permanently delete your account and all your job applications. This action cannot be undone.
@@ -121,6 +135,42 @@ export default function SettingsPage() {
                     </div>
                 )}
             </div>
+
+            {/* Delete all applications */}
+            <div className="bg-surface border border-border rounded-2xl p-6 mb-4">
+                <h2 className="text-sm font-semibold text-text mb-2">Clear all applications</h2>
+                <p className="text-xs text-muted mb-4 leading-relaxed">
+                    Delete all your job applications but keep your account. This action cannot be undone.
+                </p>
+                {!showClearConfirm ? (
+                    <button
+                        onClick={() => setShowClearConfirm(true)}
+                        className="py-2.5 px-4 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text transition-colors cursor-pointer"
+                    >
+                        Clear all applications
+                    </button>
+                ) : (
+                    <div className="flex flex-col gap-3">
+                        <p className="text-xs text-warning font-semibold">Are you sure? All applications will be deleted.</p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowClearConfirm(false)}
+                                className="flex-1 py-2.5 bg-transparent border border-border rounded-lg text-sm text-muted hover:text-text transition-colors cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleClearApplications}
+                                disabled={loadingClear}
+                                className="flex-1 py-2.5 bg-warning text-bg rounded-lg text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-colors cursor-pointer"
+                            >
+                                {loadingClear ? 'Deleting...' : 'Yes, clear all'}
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
         </div>
     )
 }

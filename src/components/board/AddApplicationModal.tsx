@@ -196,14 +196,38 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                     </div>
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Follow-up date <span className="opacity-50">(optional)</span></label>
-                        <input
-                            type="date"
-                            value={followUpDate}
-                            onChange={e => setFollowUpDate(e.target.value)}
-                            min={new Date().toISOString().split('T')[0]}
-                            className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
-                        />
-                    </div>    
+                        <div className="flex gap-2">
+                            <input
+                                type="date"
+                                value={followUpDate}
+                                onChange={e => setFollowUpDate(e.target.value)}
+                                min={new Date().toISOString().split('T')[0]}
+                                className="flex-1 px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const d = new Date()
+                                    d.setDate(d.getDate() + 1)
+                                    setFollowUpDate(d.toISOString().split('T')[0])
+                                }}
+                                className="px-3 py-2 rounded-lg text-xs font-medium border border-border text-muted hover:border-muted hover:text-text transition-colors cursor-pointer bg-transparent whitespace-nowrap"
+                            >
+                                Tomorrow
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const d = new Date()
+                                    d.setDate(d.getDate() + 7)
+                                    setFollowUpDate(d.toISOString().split('T')[0])
+                                }}
+                                className="px-3 py-2 rounded-lg text-xs font-medium border border-border text-muted hover:border-muted hover:text-text transition-colors cursor-pointer bg-transparent whitespace-nowrap"
+                            >
+                                +1 week
+                            </button>
+                        </div>
+                    </div> 
                     {/* TAGS */}
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Work type <span className="text-muted opacity-50">(optional)</span></label>

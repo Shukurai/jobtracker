@@ -34,7 +34,9 @@ export async function GET(req: Request) {
 
     let sent = 0
     for (const userId of userIds) {
-        const { data: { user } } = await adminSupabase.auth.admin.getUserById(userId)
+        console.log('Getting user for id:', userId)
+        const { data: { user }, error: userError } = await adminSupabase.auth.admin.getUserById(userId)
+        console.log('User:', user?.email, 'Error:', userError)
         if (!user?.email) continue
 
         const userApps = applications.filter(a => a.user_id === userId)
@@ -50,5 +52,5 @@ export async function GET(req: Request) {
         sent++
     }
 
-    return NextResponse.json({ sent, applications: applications.length })
+    return NextResponse.json({ sent, applications: applications.length, userIds })
 }

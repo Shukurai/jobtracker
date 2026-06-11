@@ -43,7 +43,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
 
     const supabase = createClient()
     const [followUpDate, setFollowUpDate] = useState(application.follow_up_date ?? '')
-    
+    const [showOptional, setShowOptional] = useState(false)
+
     async function handleSave(e: React.FormEvent) {
         e.preventDefault()
         setLoading(true)
@@ -191,6 +192,18 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             </button>
                         </div>
                     </div> 
+                    {/* Optional fields toggle */}
+                    <button
+                        type="button"
+                        onClick={() => setShowOptional(!showOptional)}
+                        className="flex items-center gap-2 text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none px-0 py-1"
+                    >
+                        <span>{showOptional ? '▲' : '▼'}</span>
+                        <span>Optional fields</span>
+                    </button>
+
+                {showOptional && (
+                    <div className="flex flex-col gap-4">
                     {/* TAGS */}
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Work type <span className="opacity-50">(optional)</span></label>
@@ -241,7 +254,9 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             rows={3}
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors resize-none"
                         />
-                    </div>
+                            </div> 
+                </div>
+                )}
 
                     {error && <p className="text-danger text-xs">{error}</p>}
 

@@ -36,6 +36,7 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
     const [workType, setWorkType] = useState<'remote' | 'hybrid' | 'onsite' | null>(null)
     const [source, setSource] = useState<string>('')
     const [followUpDate, setFollowUpDate] = useState('')
+    const [showOptional, setShowOptional] = useState(false)
 
     function extractCompanyFromUrl(url: string): string {
         try {
@@ -227,7 +228,19 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                                 +1 week
                             </button>
                         </div>
-                    </div> 
+                    </div>
+                {/* Optional fields toggle */}
+                <button
+                    type="button"
+                    onClick={() => setShowOptional(!showOptional)}
+                    className="flex items-center gap-2 text-xs text-muted hover:text-text transition-colors cursor-pointer bg-transparent border-none px-0 py-1"
+                >
+                    <span>{showOptional ? '▲' : '▼'}</span>
+                    <span>Optional fields</span>
+                </button>
+
+            {showOptional && (
+                <div className="flex flex-col gap-4"> 
                     {/* TAGS */}
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Work type <span className="text-muted opacity-50">(optional)</span></label>
@@ -279,7 +292,8 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors resize-none"
                         />
                     </div>
-
+                </div>
+                )}
                     {error && <p className="text-danger text-xs">{error}</p>}
 
                     <div className="flex gap-3 mt-2">

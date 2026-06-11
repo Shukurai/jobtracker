@@ -22,11 +22,11 @@ export async function GET(req: Request) {
     const supabase = await createClient()
     const today = new Date().toISOString().split('T')[0]
 
-    const { data: applications, error } = await supabase
+    const { data: applications, error } = await adminSupabase
         .from('applications')
         .select('*')
         .eq('follow_up_date', today)
-
+        
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     if (!applications?.length) return NextResponse.json({ sent: 0 })
 

@@ -51,6 +51,7 @@ export async function GET(req: Request) {
 
         sent++
     }
-
+    console.log('Today:', today)
+    console.log('Applications found:', applications?.length, applications)
     return NextResponse.json({ sent, applications: applications.length, userIds })
 }

@@ -20,7 +20,7 @@ export async function GET(req: Request) {
     // Находим все заявки где follow_up_date = сегодня
     const { data: applications, error } = await supabase
         .from('applications')
-        .select('*, profiles(id)')
+        .select('*')
         .eq('follow_up_date', today)
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })

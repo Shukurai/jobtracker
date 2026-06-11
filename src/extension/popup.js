@@ -115,11 +115,70 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
     })
 
+    const supportedIcon = document.getElementById('supported-hint-icon')
+    const supportedTooltip = document.getElementById('supported-hint-tooltip')
+    if (supportedIcon) {
+        supportedIcon.addEventListener('mouseenter', () => supportedTooltip.style.display = 'block')
+        supportedIcon.addEventListener('mouseleave', () => supportedTooltip.style.display = 'none')
+    }
+
     // Получаем данные со страницы
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         const tab = tabs[0]
         const url = tab.url || ''
-        const isSupported = url.includes('linkedin.com/jobs') || url.includes('indeed.com')
+        const isSupported =
+            // Топ мировые
+            url.includes('linkedin.com/jobs') ||
+            url.includes('indeed.com') ||
+            url.includes('glassdoor.com') ||
+            url.includes('glassdoor.at') ||
+            url.includes('ziprecruiter.com') ||
+            url.includes('wellfound.com') ||
+            url.includes('angel.co') ||
+            url.includes('monster.com') ||
+            url.includes('dice.com') ||
+            url.includes('simplyhired.com') ||
+            url.includes('flexjobs.com') ||
+            url.includes('greenhouse.io') ||
+            url.includes('lever.co') ||
+            url.includes('myworkdayjobs.com') ||
+            url.includes('jobs.smartrecruiters.com') ||
+            url.includes('apply.workable.com') ||
+            url.includes('boards.greenhouse.io') ||
+            url.includes('jobs.lever.co') ||
+            // Австрия / DACH
+            url.includes('karriere.at') ||
+            url.includes('stepstone.at') ||
+            url.includes('stepstone.de') ||
+            url.includes('jobs.at') ||
+            url.includes('ams.at') ||
+            url.includes('xing.com') ||
+            url.includes('hokify.at') ||
+            // СНГ
+            url.includes('hh.ru') ||
+            url.includes('hh.kz') ||
+            url.includes('rabota.ru') ||
+            url.includes('superjob.ru') ||
+            url.includes('zarplata.ru') ||
+            // UK
+            url.includes('reed.co.uk') ||
+            url.includes('totaljobs.com') ||
+            url.includes('cv-library.co.uk') ||
+            url.includes('cwjobs.co.uk') ||
+            // Азия
+            url.includes('seek.com.au') ||
+            url.includes('jobstreet.com') ||
+            url.includes('naukri.com') ||
+            url.includes('shine.com') ||
+            // Прочие
+            url.includes('jobleads.com') ||
+            url.includes('efinancialcareers.com') ||
+            url.includes('theladders.com') ||
+            url.includes('snagajob.com') ||
+            url.includes('careerbuilder.com') ||
+            url.includes('idealist.org') ||
+            url.includes('workopolis.com') ||
+            url.includes('jobillico.com')
 
         if (!isSupported) {
             document.getElementById('not-supported').style.display = 'block'
@@ -128,17 +187,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         chrome.tabs.sendMessage(tab.id, { action: 'getJobData' }, data => {
-            if (chrome.runtime.lastError) {
-                // content script ещё не загружен — игнорируем
-                console.log('Content script not ready:', chrome.runtime.lastError.message)
-                return
-            }
+            if (chrome.runtime.lastError) return
             if (data) {
                 jobData = data
                 document.getElementById('preview-position').textContent = data.position || 'Unknown position'
                 document.getElementById('preview-company').textContent = data.company || 'Unknown company'
                 document.getElementById('company').value = data.company || ''
                 document.getElementById('position').value = data.position || ''
+
+                // Если низкая уверенность — переключаем в Controlled и показываем предупреждение
+                if (data.confidence === 'low' || data.confidence === 'medium') {
+                    mode = 'controlled'
+                    document.getElementById('btn-controlled').classList.add('active')
+                    document.getElementById('btn-auto').classList.remove('active')
+                    document.getElementById('auto-view').style.display = 'none'
+                    document.getElementById('controlled-view').style.display = 'block'
+
+                    showStatus('Please verify the details below', 'warning')
+                }
             }
         })
     })

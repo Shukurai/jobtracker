@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
@@ -18,6 +18,19 @@ export default function SettingsPage() {
 
     const supabase = createClient()
     const router = useRouter()
+
+    const [isPro, setIsPro] = useState(false)
+    const [loadingSubscription, setLoadingSubscription] = useState(false)
+
+    useEffect(() => {
+        async function loadProfile() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            const { data } = await supabase.from('profiles').select('is_pro').eq('id', user.id).single()
+            setIsPro(data?.is_pro ?? false)
+        }
+        loadProfile()
+    }, [supabase])
 
     async function handleClearApplications() {
         setLoadingClear(true)
@@ -100,7 +113,45 @@ export default function SettingsPage() {
                     </button>
                 </form>
             </div>
-
+            {/* Subscription */}
+            <div className="bg-surface border border-border rounded-2xl p-6 mb-4">
+                <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-sm font-semibold text-text">Subscription</h2>
+                    {isPro && (
+                        <span className="text-xs font-bold text-warning bg-warning/10 px-2 py-0.5 rounded-md">
+                            PRO
+                        </span>
+                    )}
+                </div>
+                {isPro ? (
+                    <>
+                        <p className="text-xs text-muted mb-4 leading-relaxed">
+                            You're on the Pro plan — unlimited applications and all features unlocked.
+                        </p>
+                        <a
+                        href="https://app.lemonsqueezy.com/my-orders"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block py-2.5 px-4 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text transition-colors cursor-pointer no-underline"
+            >
+                        Manage subscription ↗
+                    </a>
+            </>
+            ) : (
+            <>
+                <p className="text-xs text-muted mb-4 leading-relaxed">
+                    You're on the Free plan — up to 15 applications.
+                </p>
+            <a
+                href="/board"
+                className="inline-block py-2.5 px-4 bg-text text-bg rounded-lg text-sm font-semibold hover:opacity-90 transition-colors cursor-pointer no-underline"
+            >
+                Upgrade to Pro →
+            </a>
+        </>
+    )
+}
+</div >        
             {/* Delete account */}
             <div className="bg-surface border border-danger/30 rounded-2xl p-6 mb-4">
                 <h2 className="text-sm font-semibold text-danger mb-2">Danger zone</h2>

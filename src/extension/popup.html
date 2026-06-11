@@ -65,6 +65,8 @@
     }
 
     .field input:focus, .field select:focus { border-color: #555; }
+    
+  .status.warning { background: #F59E0B22; color: #F59E0B; }
 
     .btn {
       width: 100%;
@@ -131,7 +133,35 @@
     </div>
     
     <div id="not-supported" class="not-supported" style="display:none">
-      <p>Open a job on LinkedIn or Indeed</p>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <p>Open a job listing to add it</p>
+        <div style="position: relative; display: inline-flex;" id="supported-hint-wrap">
+          <span id="supported-hint-icon" style="
+                    width: 16px; height: 16px; border-radius: 50%;
+                    background: #222; border: 1px solid #333;
+                    color: #6B7280; font-size: 10px; font-weight: 700;
+                    display: flex; align-items: center; justify-content: center;
+                    cursor: default; user-select: none;
+                ">?</span>
+          <div id="supported-hint-tooltip" style="
+                    display: none;
+                    position: absolute;
+                    bottom: 22px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #1a1a1a;
+                    border: 1px solid #333;
+                    border-radius: 8px;
+                    padding: 8px 10px;
+                    font-size: 11px;
+                    color: #aaa;
+                    width: 210px;
+                    line-height: 1.5;
+                    z-index: 10;
+                    text-align: left;
+                ">LinkedIn and Indeed are fully supported. Other job sites may work but results are not guaranteed.</div>
+        </div>
+      </div>
     </div>
 
     <div id="auto-view">

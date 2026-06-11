@@ -15,6 +15,7 @@ export interface Application {
     status: ApplicationStatus
     notes?: string
     applied_at?: string
+    follow_up_date?: string | null
     created_at: string
     updated_at: string
     work_type?: 'remote' | 'hybrid' | 'onsite' | null

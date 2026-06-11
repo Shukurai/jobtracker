@@ -35,6 +35,7 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
     const [autoName, setAutoName] = useState(true)
     const [workType, setWorkType] = useState<'remote' | 'hybrid' | 'onsite' | null>(null)
     const [source, setSource] = useState<string>('')
+    const [followUpDate, setFollowUpDate] = useState('')
 
     function extractCompanyFromUrl(url: string): string {
         try {
@@ -71,7 +72,8 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
             notes: notes || null,
             applied_at: appliedAt || null,
             work_type: workType,
-            source: source || null,
+            source: source || null, 
+            follow_up_date: followUpDate || null,
         })
 
         if (error) setError(error.message)
@@ -189,6 +191,16 @@ export default function AddApplicationModal({ onClose, onAdded, onToast, default
                             type="date"
                             value={appliedAt}
                             onChange={e => setAppliedAt(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs text-muted">Follow-up date <span className="opacity-50">(optional)</span></label>
+                        <input
+                            type="date"
+                            value={followUpDate}
+                            onChange={e => setFollowUpDate(e.target.value)}
+                            min={new Date().toISOString().split('T')[0]}
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                         />
                     </div>    

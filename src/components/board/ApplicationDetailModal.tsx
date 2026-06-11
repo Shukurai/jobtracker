@@ -42,7 +42,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
     const [source, setSource] = useState<string>(application.source ?? '')
 
     const supabase = createClient()
-
+    const [followUpDate, setFollowUpDate] = useState(application.follow_up_date ?? '')
+    
     async function handleSave(e: React.FormEvent) {
         e.preventDefault()
         setLoading(true)
@@ -51,7 +52,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         const { error } = await supabase
             .from('applications')
             .update({
-                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType, source: source })
+                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType, source: source, follow_up_date: followUpDate || null, })
             .eq('id', application.id)
             
         if (error) setError(error.message)
@@ -156,7 +157,16 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                         />
                     </div>            
-
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs text-muted">Follow-up date <span className="opacity-50">(optional)</span></label>
+                        <input
+                            type="date"
+                            value={followUpDate}
+                            onChange={e => setFollowUpDate(e.target.value)}
+                            min={new Date().toISOString().split('T')[0]}
+                            className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
+                        />
+                    </div>        
                     {/* TAGS */}
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Work type <span className="opacity-50">(optional)</span></label>

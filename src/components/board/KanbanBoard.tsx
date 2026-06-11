@@ -185,7 +185,7 @@ function DroppableColumn({
     const { setNodeRef } = useDroppable({ id: col.id })
 
     return (
-        <div className={`w-full md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
+        <div className={`w-full border-[1] p-1.5 rounded-xl border-[#1c1c1c] bg-[#0e0e0e] md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
             <div className="flex items-center gap-2 mb-3 px-1">
                 <span className="w-2 h-2 rounded-full" style={{ background: col.color }} />
                 <span className="text-xs font-semibold text-muted uppercase tracking-wider">

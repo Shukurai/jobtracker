@@ -26,7 +26,7 @@ export async function GET(req: Request) {
         .from('applications')
         .select('*')
         .eq('follow_up_date', today)
-        
+
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     if (!applications?.length) return NextResponse.json({ sent: 0 })
 
@@ -34,9 +34,7 @@ export async function GET(req: Request) {
 
     let sent = 0
     for (const userId of userIds) {
-        console.log('Getting user for id:', userId)
         const { data: { user }, error: userError } = await adminSupabase.auth.admin.getUserById(userId)
-        console.log('User:', user?.email, 'Error:', userError)
         if (!user?.email) continue
 
         const userApps = applications.filter(a => a.user_id === userId)
@@ -51,7 +49,5 @@ export async function GET(req: Request) {
 
         sent++
     }
-    console.log('Today:', today)
-    console.log('Applications found:', applications?.length, applications)
-    return NextResponse.json({ sent, applications: applications.length, userIds })
+    return NextResponse.json({ sent, applications: applications.length })
 }

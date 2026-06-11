@@ -30,7 +30,8 @@ export async function middleware(request: NextRequest) {
         request.nextUrl.pathname.startsWith('/terms') ||
         request.nextUrl.pathname.startsWith('/sitemap') ||
         request.nextUrl.pathname === '/robots.txt' ||
-        request.nextUrl.pathname === '/api/webhook'
+        request.nextUrl.pathname === '/api/webhook' ||
+        request.nextUrl.pathname.startsWith('/api/cron')
         
     if (!user && !isAuthRoute && !isPublic) {
         return NextResponse.redirect(new URL('/login', request.url))

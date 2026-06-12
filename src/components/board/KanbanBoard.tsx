@@ -125,20 +125,17 @@ function DraggableCard({
                 )}
         </div>
         
-      <div className="flex items-center justify-between">
-        {/*<span
-          className="text-xs px-2 py-0.5 rounded-full font-medium"
-          style={{ background: column?.color + '22', color: column?.color }}
-        >
-          {column?.label}
-        </span>*/}
+        <div className="flex items-center justify-between">
             <span
                 className="text-xs"
                 style={{ color: getDateColor(application.applied_at ?? application.created_at) }}
             >
                 {days === 0 ? 'Today' : `${days}d ago`}
             </span>
-      </div>
+                {application.status === 'wishlist' && daysSince(application.applied_at ?? application.created_at) > 2 && (
+                    <span className="text-xs text-warning">⚠ Apply soon</span>
+                )}
+        </div>
     </div >
   )
 }
@@ -185,7 +182,7 @@ function DroppableColumn({
     const { setNodeRef } = useDroppable({ id: col.id })
 
     return (
-        <div className={`w-full border-[1] p-1.5 rounded-xl border-[#1c1c1c] bg-[#0a0a0a] md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
+        <div className={`w-full border p-1.5 rounded-xl border-border bg-column-bg md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
             <div className="flex items-center gap-2 mb-3 px-1">
                 <span className="w-2 h-2 rounded-full" style={{ background: col.color }} />
                 <span className="text-xs font-semibold text-muted uppercase tracking-wider">

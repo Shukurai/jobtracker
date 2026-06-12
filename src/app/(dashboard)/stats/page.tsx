@@ -47,7 +47,7 @@ export default function StatsPage() {
         : 0
 
     const stats = [
-        { label: 'Total', value: total, sub: 'applications', color: '#f0f0f0' },
+        { label: 'Total', value: total, sub: 'applications', color: 'var(--color-text)' },
         { label: 'Active', value: active, sub: 'in progress', color: '#22C55E' },
         { label: 'Offers', value: offers, sub: 'received', color: '#3B82F6' },
         { label: 'Rejected', value: rejected, sub: 'closed', color: '#EF4444' },

@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { LayoutDashboard, BarChart2, LogOut, Menu, X, Settings } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ExportButtonStandalone from '@/components/board/ExportButtonStandalone'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 const navItems = [
     { href: '/board', label: 'Board', icon: LayoutDashboard },
@@ -61,13 +62,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             {/* Sidebar — только на md+ */}
             <aside className="hidden md:flex w-55 min-h-screen bg-surface border-r border-border flex-col px-3 py-6 fixed top-0 left-0">
-                <div className="flex items-center gap-2.5 px-2 mb-8">
-                    <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
-                        <img src="/icon.png" alt="JobTracker" className="w-full h-full object-contain" />
+                <div className="flex items-center justify-between gap-2.5 px-2 mb-8">
+                    <div className = "flex items-center pl-0.5 gap-1.5">
+                        <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                            <img
+                                src="/icon.png"
+                                alt="JobTracker"
+                                className="w-full h-full object-contain"
+                                style={{ filter: 'var(--icon-filter, none)' }}
+                            />
+                        </div>
+                        <Link href="/" className="font-bold text-base text-text no-underline hover:text-muted transition-colors">
+                            JobTracker
+                        </Link>
                     </div>
-                    <Link href="/" className="font-bold text-base text-text no-underline hover:text-muted transition-colors">
-                        JobTracker
-                    </Link>
+
+                    <ThemeToggle />
                 </div>
 
                 <nav className="flex flex-col gap-1 flex-1">
@@ -87,6 +97,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             </Link>
                         )
                     })}
+
                 </nav>
 
                 {/* Прогресс бар — только на десктопе */}

@@ -49,12 +49,12 @@ export default function ActivityChart({ data }: { data: DataPoint[] }) {
                             <line
                                 x1={paddingLeft} y1={y}
                                 x2={width - paddingRight} y2={y}
-                                stroke="#2D3047" strokeWidth="1"
+                                stroke="var(--color-border)" strokeWidth="1"
                             />
                             <text
                                 x={paddingLeft - 6} y={y + 4}
                                 textAnchor="end"
-                                fill="#6B7280"
+                                fill="var(--color-muted)"
                                 fontSize="10"
                             >
                                 {val}
@@ -64,13 +64,13 @@ export default function ActivityChart({ data }: { data: DataPoint[] }) {
                 })}
 
                 {/* Area fill */}
-                <path d={areaD} fill="#f0f0f0" opacity="0.05" />
+                <path d={areaD} fill="var(--color-text)" opacity="0.05" />
 
                 {/* Line */}
                 <path
                     d={pathD}
                     fill="none"
-                    stroke="#f0f0f0"
+                    stroke="var(--color-text)"
                     strokeWidth="1.5"
                     strokeLinejoin="round"
                     strokeLinecap="round"
@@ -81,25 +81,11 @@ export default function ActivityChart({ data }: { data: DataPoint[] }) {
                     <g key={i}>
                         <circle
                             cx={p.x} cy={p.y} r="3"
-                            fill={p.count > 0 ? '#f0f0f0' : '#2D3047'}
-                            stroke="#f0f0f0"
+                            fill={p.count > 0 ? 'var(--color-text)' : 'var(--color-border)'}
+                            stroke="var(--color-text)"
                             strokeWidth="1.5"
                         />
-                        {/* Invisible larger hit area */}
-                        <circle
-                            cx={p.x} cy={p.y} r="12"
-                            fill="transparent"
-                            style={{ cursor: 'pointer' }}
-                            onMouseEnter={e => {
-                                const svgRect = (e.target as SVGElement).closest('svg')!.getBoundingClientRect()
-                                const scaleX = svgRect.width / width
-                                setTooltip({
-                                    x: p.x * scaleX,
-                                    y: p.y * (svgRect.height / height),
-                                    point: p,
-                                })
-                            }}
-                        />
+                        ...
                     </g>
                 ))}
 
@@ -109,7 +95,7 @@ export default function ActivityChart({ data }: { data: DataPoint[] }) {
                         key={i}
                         x={p.x} y={height - 4}
                         textAnchor="middle"
-                        fill="#6B7280"
+                        fill="var(--color-muted)"
                         fontSize="9"
                     >
                         {p.label}

@@ -45,6 +45,11 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
     const [followUpDate, setFollowUpDate] = useState(application.follow_up_date ?? '')
     const [showOptional, setShowOptional] = useState(false)
 
+    const [aiScore, setAiScore] = useState<{ score: number; points: string[] } | null>(null)
+    const [aiLoading, setAiLoading] = useState(false)
+    const [aiError, setAiError] = useState<string | null>(null)
+    const [jobDescription, setJobDescription] = useState(application.job_description ?? '')
+    
     async function handleSave(e: React.FormEvent) {
         e.preventDefault()
         setLoading(true)
@@ -53,7 +58,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         const { error } = await supabase
             .from('applications')
             .update({
-                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType, source: source, follow_up_date: followUpDate || null, })
+                company, position, url: url || null, status, notes: notes || null, applied_at: appliedAt || null, work_type: workType, source: source, follow_up_date: followUpDate || null, job_description: jobDescription || null,
+            })
             .eq('id', application.id)
             
         if (error) setError(error.message)
@@ -61,7 +67,25 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
 
         setLoading(false)
     }
+    async function handleAnalyzeMatch() {
+        setAiLoading(true)
+        setAiError(null)
+        setAiScore(null)
 
+        const res = await fetch('/api/analyze-match', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ applicationId: application.id })
+        })
+
+        const data = await res.json()
+        if (!res.ok) {
+            setAiError(data.error || 'Failed to analyze')
+        } else {
+            setAiScore(data)
+        }
+        setAiLoading(false)
+    }
     async function handleDelete() {
         setDeleting(true)
         const { error } = await supabase
@@ -244,7 +268,49 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             ))}
                         </div>
                     </div>
-
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-xs text-muted">Job description <span className="opacity-50">(optional, for AI match score)</span></label>
+                            <textarea
+                                value={jobDescription}
+                                onChange={e => setJobDescription(e.target.value)}
+                                placeholder="Paste job description here..."
+                                rows={4}
+                                className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors resize-none"
+                            />
+                        </div>
+                        {application.job_description && (
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-xs text-muted">AI Match Score</label>
+                                {!aiScore && (
+                                    <button
+                                        type="button"
+                                        onClick={handleAnalyzeMatch}
+                                        disabled={aiLoading}
+                                        className="py-2.5 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text disabled:opacity-50 transition-colors cursor-pointer"
+                                    >
+                                        {aiLoading ? 'Analyzing...' : '✨ Analyze match'}
+                                    </button>
+                                )}
+                                {aiError && <p className="text-danger text-xs">{aiError}</p>}
+                                {aiScore && (
+                                    <div className="bg-bg border border-border rounded-lg p-3">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-xs text-muted">Match score</span>
+                                            <span className="text-2xl font-bold" style={{
+                                                color: aiScore.score >= 70 ? '#22C55E' : aiScore.score >= 40 ? '#F59E0B' : '#EF4444'
+                                            }}>
+                                                {aiScore.score}%
+                                            </span>
+                                        </div>
+                                        <ul className="flex flex-col gap-1.5">
+                                            {aiScore.points.map((point, i) => (
+                                                <li key={i} className="text-xs text-text leading-relaxed">• {point}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+                        )}            
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Notes</label>
                         <textarea

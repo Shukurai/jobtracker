@@ -20,6 +20,7 @@ export interface Application {
     updated_at: string
     work_type?: 'remote' | 'hybrid' | 'onsite' | null
     source?: string | null
+    job_description?: string | null
 }
 
 export interface Column {

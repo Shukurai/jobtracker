@@ -112,9 +112,9 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-4 px-4">
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
-            <div className="relative z-10 my-auto flex gap-3 items-start mx-auto">
+            <div className="relative z-10 flex flex-col md:flex-row gap-3 items-start w-full md:w-auto">
                 {/* Основная форма */}
-                <div className="bg-surface border border-border rounded-2xl p-6 w-[480px] flex-shrink-0">
+                <div className="bg-surface border border-border rounded-2xl p-6 w-full md:w-[480px] flex-shrink-0">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-1">
                         <h2 className="text-base font-semibold text-text">Edit application</h2>

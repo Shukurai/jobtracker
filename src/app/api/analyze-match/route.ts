@@ -53,6 +53,12 @@ export async function POST(req: Request) {
     try {
         const cleaned = text.replace(/```json|```/g, '').trim()
         const parsed = JSON.parse(cleaned)
+
+        await supabase
+            .from('applications')
+            .update({ ai_match_score: parsed })
+            .eq('id', applicationId)
+
         return NextResponse.json(parsed)
     } catch {
         return NextResponse.json({ error: 'Failed to parse AI response', raw: text }, { status: 500 })

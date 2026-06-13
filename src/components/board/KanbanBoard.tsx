@@ -57,13 +57,20 @@ function DraggableCard({
     application,
     onClick,
     index,
+    selectionMode,
+    isSelected,
+    onToggleSelect,
 }: {
     application: Application
     onClick: () => void
     index: number
+    selectionMode: boolean
+    isSelected: boolean
+    onToggleSelect: (id: string) => void
 }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
         id: application.id,
+        disabled: selectionMode,
     })
     const column = COLUMNS.find(c => c.id === application.status)
     const days = daysSince(application.applied_at ?? application.created_at)
@@ -86,11 +93,23 @@ function DraggableCard({
       {...listeners}
       onPointerDown={() => { hasMoved.current = false }}
       onPointerMove={() => { hasMoved.current = true }}
-      onPointerUp={() => { if (!hasMoved.current) onClick() }}
-            className={`w-full bg-surface border rounded-xl p-4 cursor-grab active:cursor-grabbing hover:border-muted transition-all group select-none
+      onPointerUp={() => {
+          if (hasMoved.current) return
+          if (selectionMode) onToggleSelect(application.id)
+          else onClick()
+      }}
+            className={`relative w-full bg-surface border rounded-xl p-4 ${selectionMode ? 'cursor-pointer' : 'cursor-grab active:cursor-grabbing'} hover:border-muted transition-all group select-none
     ${isDragging ? 'opacity-20' : 'opacity-100'}
-    ${application.follow_up_date ? 'border-warning/40' : 'border-border'}`}
+    ${isSelected ? 'border-text ring-1 ring-text' : application.follow_up_date ? 'border-warning/40' : 'border-border'}`}
     >
+      {selectionMode && (
+          <div className="absolute top-3 right-3 z-10">
+              <div className={`w-4 h-4 rounded border flex items-center justify-center
+                  ${isSelected ? 'bg-text border-text' : 'border-border'}`}>
+                  {isSelected && <span className="text-bg text-xs leading-none">✓</span>}
+              </div>
+          </div>
+      )}
       <div className="flex items-start justify-between gap-2 mb-1">
         <div className="flex items-center gap-2 ">
           <CompanyLogo url={application.url} company={application.company} />
@@ -98,7 +117,7 @@ function DraggableCard({
             {application.company}
           </span>
         </div>
-        {application.url && (
+        {application.url && !selectionMode && (
           <a
             href={application.url}
             target="_blank"
@@ -172,17 +191,28 @@ function DroppableColumn({
     isOver,
     onClick,
     onAdd,
+    selectionMode,
+    selectedIds,
+    onToggleSelect,
 }: {
     col: typeof COLUMNS[0]
     cards: Application[]
     isOver: boolean
     onClick: (app: Application) => void
     onAdd: (status: ApplicationStatus) => void
+    selectionMode: boolean
+    selectedIds: Set<string>
+    onToggleSelect: (id: string) => void
 }) {
     const { setNodeRef } = useDroppable({ id: col.id })
 
     return (
-        <div className={`w-full border p-1.5 rounded-xl border-border bg-column-bg md:flex-shrink-0 md:w-64 ${cards.length === 0 ? 'hidden md:block' : ''}`}>
+        <div
+            ref={setNodeRef}
+            className={`w-full border p-1.5 rounded-xl border-border bg-column-bg md:flex-shrink-0 md:w-64 transition-all
+                ${cards.length === 0 ? 'hidden md:block' : ''}
+                ${isOver ? 'ring-1 ring-border bg-surface-hover' : ''}`}
+        >
             <div className="flex items-center gap-2 mb-3 px-1">
                 <span className="w-2 h-2 rounded-full" style={{ background: col.color }} />
                 <span className="text-xs font-semibold text-muted uppercase tracking-wider">
@@ -190,23 +220,24 @@ function DroppableColumn({
                 </span>
                 <span className="text-xs text-muted ml-auto">{cards.length}</span>
             </div>
-            <button
-                onClick={() => onAdd(col.id)}
-                className="w-full mb-2 py-1.5 text-xs text-muted hover:text-text border border-dashed border-border hover:border-muted rounded-lg bg-transparent cursor-pointer transition-colors"
-            >
-                + Add
-            </button>
-            <div
-                ref={setNodeRef}
-                className={`flex flex-col gap-2 min-h-24 rounded-xl transition-all p-1 -m-1
-          ${isOver ? 'bg-surface-hover ring-1 ring-border' : ''}`}
-            >
+            {!selectionMode && (
+                <button
+                    onClick={() => onAdd(col.id)}
+                    className="w-full mb-2 py-1.5 text-xs text-muted hover:text-text border border-dashed border-border hover:border-muted rounded-lg bg-transparent cursor-pointer transition-colors"
+                >
+                    + Add
+                </button>
+            )}
+            <div className="flex flex-col gap-2 min-h-24">
                 {cards.map((app, index) => (
                     <DraggableCard
                         key={app.id}
                         application={app}
                         onClick={() => onClick(app)}
                         index={index}
+                        selectionMode={selectionMode}
+                        isSelected={selectedIds.has(app.id)}
+                        onToggleSelect={onToggleSelect}
                     />
                 ))}
                 {cards.length === 0 && (
@@ -226,12 +257,18 @@ export default function KanbanBoard({
     onUpdate,
     onOptimisticUpdate,
     onAdd,
+    selectionMode = false,
+    selectedIds = new Set(),
+    onToggleSelect = () => { },
 }: {
     applications: Application[]
     onSelect: (app: Application) => void
     onUpdate: () => void
     onOptimisticUpdate: (apps: Application[]) => void
     onAdd: (status: ApplicationStatus) => void
+    selectionMode?: boolean
+    selectedIds?: Set<string>
+    onToggleSelect?: (id: string) => void
 }) {
     const [activeId, setActiveId] = useState<string | null>(null)
     const [overId, setOverId] = useState<string | null>(null)
@@ -255,7 +292,7 @@ export default function KanbanBoard({
                 return dateA - dateB
             })
 
-            
+
     async function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event
         setActiveId(null)
@@ -266,18 +303,15 @@ export default function KanbanBoard({
         const app = applications.find(a => a.id === active.id)
         if (!app || app.status === newStatus) return
 
-        // Optimistic update — сразу меняем локально
         onOptimisticUpdate(
             applications.map(a => a.id === app.id ? { ...a, status: newStatus } : a)
         )
 
-        // Потом пишем в БД
         const { error } = await supabase
             .from('applications')
             .update({ status: newStatus })
             .eq('id', app.id)
 
-        // Если ошибка — откатываем
         if (error) onUpdate()
     }
 
@@ -285,7 +319,6 @@ export default function KanbanBoard({
         <DndContext
             sensors={sensors}
             onDragStart={(e: DragStartEvent) => {
-                console.log('drag start', e.active.id)
                 setActiveId(e.active.id as string)
             }}
             onDragOver={(e: DragOverEvent) => setOverId(e.over?.id as string ?? null)}
@@ -300,6 +333,9 @@ export default function KanbanBoard({
                         isOver={overId === col.id}
                         onClick={onSelect}
                         onAdd={onAdd}
+                        selectionMode={selectionMode}
+                        selectedIds={selectedIds}
+                        onToggleSelect={onToggleSelect}
                     />
                 ))}
             </div>

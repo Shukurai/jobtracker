@@ -59,7 +59,7 @@ function showStatus(msg, type) {
     if (type === 'success') setTimeout(() => { el.style.display = 'none' }, 3000)
 }
 
-async function addApplication(company, position, status, url) {
+async function addApplication(company, position, status, url, description) {
     const token = await getSession()
     if (!token) {
         document.getElementById('login-prompt').style.display = 'block'
@@ -73,7 +73,7 @@ async function addApplication(company, position, status, url) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ company, position, status, url })
+        body: JSON.stringify({ company, position, status, url, description })
     })
 
     if (res.ok) {
@@ -195,14 +195,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('company').value = data.company || ''
                 document.getElementById('position').value = data.position || ''
 
-                // Если низкая уверенность — переключаем в Controlled и показываем предупреждение
                 if (data.confidence === 'low' || data.confidence === 'medium') {
                     mode = 'controlled'
                     document.getElementById('btn-controlled').classList.add('active')
                     document.getElementById('btn-auto').classList.remove('active')
                     document.getElementById('auto-view').style.display = 'none'
                     document.getElementById('controlled-view').style.display = 'block'
-
                     showStatus('Please verify the details below', 'warning')
                 }
             }
@@ -241,6 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const company = document.getElementById('company').value.trim()
         const position = document.getElementById('position').value.trim()
         const status = document.getElementById('status').value
+        const description = document.getElementById('description').value.trim()
 
         if (!company || !position) {
             showStatus('Company and position are required', 'error')
@@ -250,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btn = document.getElementById('controlled-add-btn')
         btn.disabled = true
         btn.textContent = 'Adding...'
-        await addApplication(company, position, status, jobData.url)
+        await addApplication(company, position, status, jobData.url, description)
         btn.disabled = false
         btn.textContent = 'Add to JobTracker'
     })

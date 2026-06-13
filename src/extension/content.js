@@ -6,7 +6,11 @@ function parseJobData() {
 
     // LinkedIn
     if (url.includes('linkedin.com')) {
-        position = document.querySelector('a[href*="/jobs/view/"]')?.innerText?.trim() || ''
+        position =
+            document.querySelector('[class*="job-details"] h1')?.innerText?.trim() ||
+            document.querySelector('a[href*="/jobs/view/"]')?.innerText?.trim() ||
+            document.querySelector('h1')?.innerText?.trim() ||
+            ''
         company =
             document.querySelector('.job-details-jobs-unified-top-card__company-name a')?.innerText?.trim() ||
             document.querySelector('.jobs-unified-top-card__company-name a')?.innerText?.trim() ||

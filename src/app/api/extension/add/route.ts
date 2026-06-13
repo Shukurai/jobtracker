@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { company, position, status, url } = body
+    const { company, position, status, url, description } = body
 
     if (!company || !position) {
         return NextResponse.json({ error: 'company and position are required' }, { status: 400 })
@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
             url: url || null,
             status: status || 'applied',
             applied_at: new Date().toISOString().split('T')[0],
+            job_description: description || null,
         })
         .select()
         .single()

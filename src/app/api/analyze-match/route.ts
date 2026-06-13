@@ -10,9 +10,13 @@ export async function POST(req: Request) {
 
     const { data: profile } = await supabase
         .from('profiles')
-        .select('resume_text')
+        .select('resume_text, is_pro')
         .eq('id', user.id)
         .single()
+
+    if (!profile?.is_pro) {
+        return NextResponse.json({ error: 'AI Match Score is a Pro feature' }, { status: 403 })
+    }
 
     if (!profile?.resume_text) {
         return NextResponse.json({ error: 'No resume saved. Add it in Settings.' }, { status: 400 })

@@ -13,7 +13,9 @@ interface Props {
     onUpdated: () => void
     onDeleted: () => void
     onToast?: (message: string, type: 'success' | 'error') => void
+    isPro: boolean
 }
+
 function isValidUrl(url: string): boolean {
     try {
         new URL(url)
@@ -304,14 +306,23 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                                     </div>
                                 )}
 
-                                <button
-                                    type="button"
-                                    onClick={handleAnalyzeMatch}
-                                    disabled={aiLoading}
-                                    className="py-2.5 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text disabled:opacity-50 transition-colors cursor-pointer"
-                                >
-                                    {aiLoading ? 'Analyzing...' : aiScore ? '✨ Re-analyze' : '✨ Analyze match'}
-                                </button>
+                                {isPro ? (
+                                    <button
+                                        type="button"
+                                        onClick={handleAnalyzeMatch}
+                                        disabled={aiLoading}
+                                        className="py-2.5 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text disabled:opacity-50 transition-colors cursor-pointer"
+                                    >
+                                        {aiLoading ? 'Analyzing...' : aiScore ? '✨ Re-analyze' : '✨ Analyze match'}
+                                    </button>
+                                ) : (
+                                    <div className="flex items-center justify-between py-2.5 px-3.5 bg-bg border border-border rounded-lg">
+                                        <span className="text-xs text-muted">✨ AI Match Score is a Pro feature</span>
+                                        <a href="/board" className="text-xs font-semibold text-text no-underline">
+                                            Upgrade →
+                                        </a>
+                                    </div>
+                                )}
                             </div>
                         )}            
                     <div className="flex flex-col gap-1.5">

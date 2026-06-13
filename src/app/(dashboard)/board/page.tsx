@@ -199,6 +199,7 @@ export default function BoardPage() {
                     onUpdated={fetchApplications}
                     onDeleted={fetchApplications}
                     onToast={(message, type) => setToast({ message, type })}
+                    isPro={isPro}
                 />
             )}
 

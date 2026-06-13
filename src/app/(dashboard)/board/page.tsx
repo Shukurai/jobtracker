@@ -45,6 +45,11 @@ export default function BoardPage() {
         fetchApplications()
     }
 
+    function handleOptimisticUpdate(apps: Application[]) {
+        const scrollY = window.scrollY
+        setApplications(apps)
+        requestAnimationFrame(() => window.scrollTo(0, scrollY))
+    }
 
     async function fetchApplications() {
         const { data } = await supabase
@@ -165,7 +170,7 @@ export default function BoardPage() {
                         applications={filtered}
                         onSelect={setSelected}
                         onUpdate={fetchApplications}
-                        onOptimisticUpdate={setApplications}
+                        onOptimisticUpdate={handleOptimisticUpdate}
                         onAdd={(status) => {
                             setDefaultStatus(status)
                             setShowAdd(true)

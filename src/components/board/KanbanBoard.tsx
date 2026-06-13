@@ -18,6 +18,8 @@ import { daysSince } from '@/lib/utils'
 import { useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
+
+
 function getDateColor(dateStr: string): string {
     const days = daysSince(dateStr)
     if (days <= 7) return '#22C55E'
@@ -306,7 +308,7 @@ export default function KanbanBoard({
                 return dateA - dateB
             })
 
-
+    
     async function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event
         setActiveId(null)

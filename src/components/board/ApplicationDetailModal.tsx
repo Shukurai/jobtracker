@@ -24,7 +24,7 @@ function isValidUrl(url: string): boolean {
         return false
     }
 }
-export default function ApplicationDetailModal({ application, onClose, onUpdated, onDeleted, onToast }: Props) {
+export default function ApplicationDetailModal({ application, onClose, onUpdated, onDeleted, onToast, isPro }: Props) {
     const [company, setCompany] = useState(application.company)
     const [position, setPosition] = useState(application.position)
     const [url, setUrl] = useState(application.url ?? '')

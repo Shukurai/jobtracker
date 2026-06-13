@@ -87,6 +87,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
             setAiError(data.error || 'Failed to analyze')
         } else {
             setAiScore(data)
+            onUpdated()
         }
         setAiLoading(false)
     }

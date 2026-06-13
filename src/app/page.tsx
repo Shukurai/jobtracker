@@ -134,7 +134,6 @@ export default async function LandingPage() {
                         { icon: Zap, title: 'Fast & Simple', desc: 'Add an application in seconds. No bloat, no onboarding, just work.' },
                         { icon: Shield, title: 'Your data is safe', desc: 'Row-level security. Only you can see your applications.' },
                         { icon: Globe, title: 'Works everywhere', desc: 'Fully responsive. Track your search from any device.' },
-                        { icon: Bell, title: 'Early adopter pricing', desc: '...' },
                         { icon: Sparkles, title: 'AI Resume Match (Pro)', desc: 'Get an AI-powered match score between your resume and any job description, with personalized insights in your language.' },
                     ].map(({ icon: Icon, title, desc }) => (
                         <div key={title} className="bg-surface border border-border rounded-2xl p-6">

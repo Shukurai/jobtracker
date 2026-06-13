@@ -165,7 +165,10 @@ function CardOverlay({ application }: { application: Application }) {
 
     return (
         <div className="bg-surface border border-muted rounded-xl p-4 w-64 shadow-2xl rotate-2 cursor-grabbing select-none">
-            <p className="text-sm font-semibold text-text leading-tight mb-1">{application.company}</p>
+            <div className="flex gap-1">
+                <CompanyLogo url={application.url} company={application.company} />
+                <p className="text-sm font-semibold text-text leading-tight mb-1">{application.company}</p>
+            </div>
             <p className="text-xs text-muted mb-3 leading-tight">{application.position}</p>
             <div className="flex items-center justify-between">
                 <span

@@ -72,7 +72,6 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
     async function handleAnalyzeMatch() {
         setAiLoading(true)
         setAiError(null)
-        setAiScore(null)
 
         const res = await fetch('/api/analyze-match', {
             method: 'POST',
@@ -83,10 +82,9 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         const data = await res.json()
         if (!res.ok) {
             setAiError(data.error || 'Failed to analyze')
-            console.log('AI error details:', data.details)
-        
         } else {
             setAiScore(data)
+            onUpdated() // обновляет список заявок в фоне
         }
         setAiLoading(false)
     }

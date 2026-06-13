@@ -144,17 +144,28 @@ function DraggableCard({
                 )}
         </div>
         
-        <div className="flex items-center justify-between">
-            <span
-                className="text-xs"
-                style={{ color: getDateColor(application.applied_at ?? application.created_at) }}
-            >
-                {days === 0 ? 'Today' : `${days}d ago`}
-            </span>
-                {application.status === 'wishlist' && daysSince(application.applied_at ?? application.created_at) > 2 && (
-                    <span className="text-xs text-warning">⚠ Apply soon</span>
-                )}
-        </div>
+            <div className="flex items-center justify-between">
+                <span
+                    className="text-xs"
+                    style={{ color: getDateColor(application.applied_at ?? application.created_at) }}
+                >
+                    {days === 0 ? 'Today' : `${days}d ago`}
+                </span>
+                <div className="flex items-center gap-2">
+                    {application.status === 'wishlist' && daysSince(application.applied_at ?? application.created_at) > 2 && (
+                        <span className="text-xs text-warning">⚠ Apply soon</span>
+                    )}
+                    {application.ai_match_score && (
+                        <span className="text-xs font-semibold" style={{
+                            color: application.ai_match_score.score >= 70 ? '#22C55E'
+                                : application.ai_match_score.score >= 40 ? '#F59E0B'
+                                    : '#EF4444'
+                        }}>
+                            {application.ai_match_score.score}%
+                        </span>
+                    )}
+                </div>
+            </div>
     </div >
   )
 }

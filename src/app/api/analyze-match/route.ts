@@ -31,16 +31,19 @@ export async function POST(req: Request) {
 
     const prompt = `Resume:\n${profile.resume_text}\n\nJob: ${application.position} at ${application.company}\n${application.job_description}\n\nGive a match score (0-100) and 3 short bullet points on strengths/gaps. Respond ONLY with valid JSON, no markdown, no code fences: {"score": number, "points": string[]}`
 
-    const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
-            })
-        }
-    )
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.ANTHROPIC_API_KEY!,
+            'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 500,
+            messages: [{ role: 'user', content: prompt }]
+        })
+    })
 
     if (!res.ok) {
         const err = await res.text()
@@ -48,7 +51,7 @@ export async function POST(req: Request) {
     }
 
     const data = await res.json()
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
+    const text = data.content?.[0]?.text ?? ''
 
     try {
         const cleaned = text.replace(/```json|```/g, '').trim()

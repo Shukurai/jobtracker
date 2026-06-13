@@ -283,7 +283,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                             className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors resize-none"
                         />
                     </div>
-                        {application.job_description && (
+                        {application.job_description ? (
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-xs text-muted">AI Match Score</label>
 
@@ -340,7 +340,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                                     </div>
                                 )}
                             </div>
-                        )}            
+                            ) : (<label className="text-xs text-accent bg-bg border-border border-dashed border-[1] p-2 text-center ">Save JOB DESCRIPTION to use AI Match Functions. DON'T FORGET to add your CV-text in "Settings"</label>)}            
                     <div className="flex flex-col gap-1.5">
                         <label className="text-xs text-muted">Notes</label>
                         <textarea

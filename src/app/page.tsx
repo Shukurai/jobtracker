@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, BarChart2, Bell, Zap, Shield, Globe } from 'lucide-react'
+import { LayoutDashboard, BarChart2, Bell, Zap, Shield, Globe, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import FadeIn from '@/components/ui/FadeIn'
 import { createClient } from '@/lib/supabase/server'
@@ -134,6 +134,8 @@ export default async function LandingPage() {
                         { icon: Zap, title: 'Fast & Simple', desc: 'Add an application in seconds. No bloat, no onboarding, just work.' },
                         { icon: Shield, title: 'Your data is safe', desc: 'Row-level security. Only you can see your applications.' },
                         { icon: Globe, title: 'Works everywhere', desc: 'Fully responsive. Track your search from any device.' },
+                        { icon: Bell, title: 'Early adopter pricing', desc: '...' },
+                        { icon: Sparkles, title: 'AI Resume Match (Pro)', desc: 'Get an AI-powered match score between your resume and any job description, with personalized insights in your language.' },
                     ].map(({ icon: Icon, title, desc }) => (
                         <div key={title} className="bg-surface border border-border rounded-2xl p-6">
                             <div className="w-9 h-9 bg-bg border border-border rounded-lg flex items-center justify-center mb-4">
@@ -156,12 +158,12 @@ export default async function LandingPage() {
                     {[
                         {
                             name: 'Free', price: '$0', period: 'forever',
-                            features: ['Up to 15 applications', 'Kanban board', 'Basic stats'],
+                            features: ['Up to 15 applications', 'Kanban board', 'Export to Excel', 'Stats'],
                             cta: 'Get started', highlight: false,
                         },
                         {
                             name: 'Pro', price: '$4.99', period: 'per month',
-                            features: ['Unlimited applications', 'Export to Excel', 'Priority support', 'Early adopter price — locked in forever'],
+                            features: ['Unlimited applications', 'AI resume match score', 'Priority support', 'Early adopter price — locked in forever'],
                             cta: 'Start Pro', highlight: true,
                         },
                     ].map(plan => (

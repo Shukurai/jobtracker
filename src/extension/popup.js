@@ -229,7 +229,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btn = document.getElementById('auto-add-btn')
         btn.disabled = true
         btn.textContent = 'Adding...'
-        await addApplication(jobData.company, jobData.position, 'wishlist', jobData.url)
+        const description = document.getElementById('description').value.trim()
+        await addApplication(jobData.company, jobData.position, 'wishlist', jobData.url, description)
         btn.disabled = false
         btn.textContent = 'Add to JobTracker'
     })

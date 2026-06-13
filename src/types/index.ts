@@ -21,7 +21,10 @@ export interface Application {
     work_type?: 'remote' | 'hybrid' | 'onsite' | null
     source?: string | null
     job_description?: string | null
-    ai_match_score?: { score: number; points: string[] } | null
+    ai_match_score?: {
+        score: number
+        points: { text: string; positive: boolean } []
+        } | null
 }
 
 export interface Column {

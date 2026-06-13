@@ -83,6 +83,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         const data = await res.json()
         if (!res.ok) {
             setAiError(data.error || 'Failed to analyze')
+            console.log('AI error details:', data.details)
+        
         } else {
             setAiScore(data)
         }

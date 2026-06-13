@@ -53,7 +53,8 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
     const [aiLoading, setAiLoading] = useState(false)
     const [aiError, setAiError] = useState<string | null>(null)
     const [jobDescription, setJobDescription] = useState(application.job_description ?? '')
-    
+    const [aiLanguage, setAiLanguage] = useState('English')
+
     async function handleSave(e: React.FormEvent) {
         e.preventDefault()
         setLoading(true)
@@ -78,7 +79,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         const res = await fetch('/api/analyze-match', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId: application.id })
+            body: JSON.stringify({ applicationId: application.id, language: aiLanguage })
         })
 
         const data = await res.json()
@@ -86,7 +87,6 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
             setAiError(data.error || 'Failed to analyze')
         } else {
             setAiScore(data)
-            onUpdated() // обновляет список заявок в фоне
         }
         setAiLoading(false)
     }
@@ -307,14 +307,29 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                                 )}
 
                                 {isPro ? (
-                                    <button
-                                        type="button"
-                                        onClick={handleAnalyzeMatch}
-                                        disabled={aiLoading}
-                                        className="py-2.5 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text disabled:opacity-50 transition-colors cursor-pointer"
-                                    >
-                                        {aiLoading ? 'Analyzing...' : aiScore ? '✨ Re-analyze' : '✨ Analyze match'}
-                                    </button>
+                                    
+                                        <div className="flex gap-2">
+                                            <select
+                                                value={aiLanguage}
+                                                onChange={e => setAiLanguage(e.target.value)}
+                                                className="px-2 py-2.5 bg-bg border border-border rounded-lg text-text text-xs outline-none focus:border-muted transition-colors cursor-pointer"
+                                            >
+                                                <option value="English">EN</option>
+                                                <option value="German">DE</option>
+                                                <option value="Russian">RU</option>
+                                                <option value="Spanish">ES</option>
+                                                <option value="French">FR</option>
+                                                <option value="Ukrainian">UA</option>
+                                            </select>
+                                            <button
+                                                type="button"
+                                                onClick={handleAnalyzeMatch}
+                                                disabled={aiLoading}
+                                                className="flex-1 py-2.5 bg-transparent border border-border text-muted rounded-lg text-sm font-semibold hover:border-muted hover:text-text disabled:opacity-50 transition-colors cursor-pointer"
+                                            >
+                                                {aiLoading ? 'Analyzing...' : aiScore ? '✨ Re-analyze' : '✨ Analyze match'}
+                                            </button>
+                                        </div>
                                 ) : (
                                     <div className="flex items-center justify-between py-2.5 px-3.5 bg-bg border border-border rounded-lg">
                                         <span className="text-xs text-muted">✨ AI Match Score is a Pro feature</span>

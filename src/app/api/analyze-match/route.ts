@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { applicationId } = await req.json()
+    const { applicationId, language } = await req.json()
 
     const { data: profile } = await supabase
         .from('profiles')
@@ -33,8 +33,8 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'No job description for this application.' }, { status: 400 })
     }
 
-    const prompt = `Resume:\n${profile.resume_text}\n\nJob: ${application.position} at ${application.company}\n${application.job_description}\n\nGive a match score (0-100) and 3 short bullet points on strengths/gaps. Respond ONLY with valid JSON, no markdown, no code fences: {"score": number, "points": string[]}`
-
+    const prompt = `Resume:\n${profile.resume_text}\n\nJob: ${application.position} at ${application.company}\n${application.job_description}\n\nGive a match score (0-100) and 3 short bullet points on strengths/gaps, written in ${language || 'English'}. Respond ONLY with valid JSON, no markdown, no code fences: {"score": number, "points": string[]}`
+    
     const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {

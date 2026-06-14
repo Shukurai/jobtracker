@@ -109,10 +109,11 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
         return () => document.removeEventListener('keydown', handleKey)
     }, [onClose])
     return (
-        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-4 px-4">
+        <div className="fixed inset-0 z-50 overflow-y-auto">
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
-            <div className="relative z-10 flex flex-col md:flex-row gap-3 items-start w-full md:w-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+                <div className="relative z-10 flex flex-col md:flex-row gap-3 items-start w-full md:w-auto">
                 {/* Основная форма */}
                 <div className="bg-surface border border-border rounded-2xl p-6 w-full md:w-[480px] flex-shrink-0">
                     {/* Header */}
@@ -459,7 +460,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                     )}
                 </div>
             </div>
-
+        </div>
             {showConfirm && (
                 <ConfirmDialog
                     message="Delete this application? This action cannot be undone."

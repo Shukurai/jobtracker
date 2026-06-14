@@ -67,12 +67,22 @@ export default function LoginPage() {
                 <p className="text-xs text-muted mb-8 leading-relaxed">
                     We sent a confirmation link to <span className="text-text">{email}</span>. Click it to activate your account.
                 </p>
+                <p className="text-xs text-muted text-center mt-2">
+                    Already have an account?{' '}
+                    <button
+                        onClick={() => { setEmailSent(false); setIsSignUp(false) }}
+                        className="text-text bg-transparent border-none cursor-pointer text-xs underline"
+                    >
+                        Sign in instead
+                    </button>
+                </p>
                 <Link
                     href="/"
                     className="block w-full py-2.5 bg-text text-bg rounded-lg text-sm font-semibold no-underline text-center hover:bg-accent-hover transition-colors"
                 >
                     Back to home
                 </Link>
+                
             </div>
         )
     }

@@ -27,6 +27,7 @@ export default function LoginPage() {
         if (isSignUp) {
             if (password !== confirmPassword) {
                 setError('Passwords do not match')
+                setLoading(false)
                 return
             }
             const { error } = await supabase.auth.signUp({ email, password })

@@ -31,7 +31,15 @@ export default function LoginPage() {
                 return
             }
             const { error } = await supabase.auth.signUp({ email, password })
-            if (error) setError(error.message)
+            if (error) {
+                if (error.message.toLowerCase().includes('already registered') ||
+                    error.message.toLowerCase().includes('already exists') ||
+                    error.message.toLowerCase().includes('email already')) {
+                    setError('An account with this email already exists. Please sign in instead.')
+                } else {
+                    setError(error.message)
+                }
+            }
             else setEmailSent(true)
         } else {
             const { error, data } = await supabase.auth.signInWithPassword({ email, password })

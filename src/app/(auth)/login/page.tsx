@@ -10,6 +10,7 @@ declare const chrome: any
 export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [isSignUp, setIsSignUp] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -24,6 +25,10 @@ export default function LoginPage() {
         setError(null)
 
         if (isSignUp) {
+            if (password !== confirmPassword) {
+                setError('Passwords do not match')
+                return
+            }
             const { error } = await supabase.auth.signUp({ email, password })
             if (error) setError(error.message)
             else setEmailSent(true)
@@ -91,6 +96,7 @@ export default function LoginPage() {
                     />
                 </div>
 
+                {isSignUp ? (
                 <div className="flex flex-col gap-1.5">
                     <label className="text-xs text-muted">Password</label>
                     <input
@@ -101,7 +107,29 @@ export default function LoginPage() {
                         placeholder="••••••••"
                         className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
                     />
-                </div>
+                    <label className="text-xs text-muted">Confirm Password</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        required
+                        placeholder="••••••••"
+                        className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
+                    />
+                </div>) 
+                : (
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-xs text-muted">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                                placeholder="••••••••"
+                                className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm outline-none focus:border-muted transition-colors"
+                            />
+                        </div>) 
+                }
 
                 {error && <p className="text-danger text-xs">{error}</p>}
 

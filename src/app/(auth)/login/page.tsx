@@ -67,7 +67,7 @@ export default function LoginPage() {
                 <p className="text-xs text-muted mb-8 leading-relaxed">
                     We sent a confirmation link to <span className="text-text">{email}</span>. Click it to activate your account.
                 </p>
-                <p className="text-xs text-muted text-center mt-2">
+                <p className="text-xs text-muted text-center mt-2 mb-2">
                     Already have an account?{' '}
                     <button
                         onClick={() => { setEmailSent(false); setIsSignUp(false) }}

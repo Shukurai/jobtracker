@@ -45,9 +45,14 @@ export default function BoardPage() {
         fetchApplications()
     }
 
-    function handleOptimisticUpdate(apps: Application[]) {
+    function handleOptimisticUpdate(updatedFiltered: Application[]) {
         const scrollY = window.scrollY
-        setApplications(apps)
+        setApplications(prev => {
+            // Создаём map из обновлённых карточек
+            const updatedMap = new Map(updatedFiltered.map(a => [a.id, a]))
+            // Обновляем только те что изменились, остальные оставляем
+            return prev.map(a => updatedMap.get(a.id) ?? a)
+        })
         requestAnimationFrame(() => window.scrollTo(0, scrollY))
     }
 

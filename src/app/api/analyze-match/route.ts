@@ -39,7 +39,7 @@ IMPORTANT: You MUST write the "points" and "hiddenInstruction" fields entirely i
 
 Write bullet points as if speaking directly to the job applicant (use "you/your" perspective).
 
-Additionally, check if the job description contains an unusual "how to apply" instruction designed to test applicant attentiveness — for example asking the applicant to start their message with a specific letter or word, include a secret code, or perform an odd action that isn't part of standard application requirements. If you detect such an instruction, extract it clearly and concisely. Standard requirements like portfolio links, project descriptions, or salary expectations are NOT hidden instructions — only flag unusual attentiveness tests (e.g. "start with letter X", "include the word Y somewhere").
+Additionally, scan the "how to apply" section carefully for unusual attentiveness tests — for example: "start your message with the letter X", "include the word Y", "use code Z somewhere in your application". These are deliberately placed to filter out applicants who don't read carefully. If found, extract the exact instruction in the "hiddenInstruction" field. This is different from standard requirements like sharing portfolio links, describing past work, or stating salary expectations — only flag the attentiveness test itself, not the whole "how to apply" list.
 Resume:
 ${profile.resume_text}
 
@@ -57,7 +57,8 @@ Return ONLY valid JSON with no markdown, no code fences: {"score": number (0-100
         },
         body: JSON.stringify({
             model: 'claude-haiku-4-5-20251001',
-            max_tokens: 500,
+            max_tokens: 800,
+            temperature: 0.3,
             messages: [{ role: 'user', content: prompt }]
         })
     })

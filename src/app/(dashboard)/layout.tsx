@@ -52,7 +52,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     async function handleLogout() {
         await supabase.auth.signOut({ scope: 'local' })
-        router.push('/')
+        window.location.href = '/'
     }
 
     const avatar = email ? email[0].toUpperCase() : '?'

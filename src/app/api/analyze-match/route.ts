@@ -61,6 +61,7 @@ Return ONLY valid JSON with no markdown, no code fences: {"score": number (0-100
             temperature: 0.3,
             messages: [{ role: 'user', content: prompt }]
         })
+        
     })
 
     if (!res.ok) {
@@ -70,6 +71,7 @@ Return ONLY valid JSON with no markdown, no code fences: {"score": number (0-100
 
     const data = await res.json()
     const text = data.content?.[0]?.text ?? ''
+    console.log('Raw AI response:', text)
 
     try {
         const cleaned = text.replace(/```json|```/g, '').trim()

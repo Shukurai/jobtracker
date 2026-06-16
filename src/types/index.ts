@@ -23,8 +23,10 @@ export interface Application {
     job_description?: string | null
     ai_match_score?: {
         score: number
-        points: { text: string; positive: boolean } []
-        } | null
+        points: { text: string; positive: boolean }[]
+        hiddenInstruction?: string | null
+    } | null
+
 }
 
 export interface Column {

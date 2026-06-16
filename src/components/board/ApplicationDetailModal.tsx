@@ -47,7 +47,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
     const [followUpDate, setFollowUpDate] = useState(application.follow_up_date ?? '')
     const [showOptional, setShowOptional] = useState(false)
 
-    const [aiScore, setAiScore] = useState<{ score: number; points: { text: string; positive: boolean }[] } | null>(
+    const [aiScore, setAiScore] = useState<{ score: number; points: { text: string; positive: boolean }[]; hiddenInstruction?: string | null } | null>(
         application.ai_match_score ?? null
     )
 
@@ -316,9 +316,17 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                                                                 {point.positive ? '✓' : '✗'} {point.text}
                                                             </li>
                                                         ))}
+                                                            {aiScore.hiddenInstruction && (
+                                                                <div className="mt-2 px-2.5 py-2 bg-warning/10 border border-warning/30 rounded-lg">
+                                                                    <p className="text-xs font-semibold text-warning mb-1">⚠️ Possible hidden instruction detected</p>
+                                                                    <p className="text-xs text-warning">{aiScore.hiddenInstruction}</p>
+                                                                </div>
+                                                            )}
                                                     </ul>
                                                 </div>
+                                                
                                             )}
+                                            
                                             {isPro ? (
                                                 <div className="flex gap-2">
                                                     <select

@@ -57,7 +57,7 @@ Return ONLY valid JSON with no markdown, no code fences: {"score": number (0-100
         },
         body: JSON.stringify({
             model: 'claude-haiku-4-5-20251001',
-            max_tokens: 800,
+            max_tokens: 500,
             temperature: 0.3,
             messages: [{ role: 'user', content: prompt }]
         })
@@ -71,7 +71,6 @@ Return ONLY valid JSON with no markdown, no code fences: {"score": number (0-100
 
     const data = await res.json()
     const text = data.content?.[0]?.text ?? ''
-    console.log('Raw AI response:', text)
 
     try {
         const cleaned = text.replace(/```json|```/g, '').trim()

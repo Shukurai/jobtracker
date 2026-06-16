@@ -401,7 +401,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                 </div>
 
                 {/* AI панель — только на десктопе */}
-                <div className="hidden md:flex flex-col bg-surface border border-border rounded-2xl p-4 w-102 flex-shrink-0">
+                    <div className="hidden md:flex flex-col bg-surface border border-border rounded-2xl p-4 w-102 flex-shrink-0 self-stretch overflow-y-auto">
                     <p className="text-xs font-semibold text-text mb-1">✨ AI Match Score</p>
                     <p className="text-xs text-muted mb-3 leading-relaxed">
                         {!application.job_description

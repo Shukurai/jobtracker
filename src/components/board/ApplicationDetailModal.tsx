@@ -401,7 +401,7 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                 </div>
 
                 {/* AI панель — только на десктопе */}
-                    <div className="hidden md:flex flex-col bg-surface border border-border rounded-2xl p-4 w-102 flex-shrink-0 self-stretch overflow-y-auto">
+                <div className="hidden md:flex flex-col bg-surface border border-border rounded-2xl p-4 w-102 flex-shrink-0">
                     <p className="text-xs font-semibold text-text mb-1">✨ AI Match Score</p>
                     <p className="text-xs text-muted mb-3 leading-relaxed">
                         {!application.job_description
@@ -431,6 +431,12 @@ export default function ApplicationDetailModal({ application, onClose, onUpdated
                                                 {point.positive ? '✓' : '✗'} {point.text}
                                             </li>
                                         ))}
+                                        {aiScore.hiddenInstruction && (
+                                            <div className="mt-2 px-2.5 py-2 bg-warning/10 border border-warning/30 rounded-lg">
+                                                <p className="text-xs font-semibold text-warning mb-1">⚠️ Possible hidden instruction detected</p>
+                                                <p className="text-xs text-warning">{aiScore.hiddenInstruction}</p>
+                                            </div>
+                                        )}
                                     </ul>
                                 </div>
                             )}

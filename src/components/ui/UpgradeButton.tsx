@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-const TEST_MODE = true // поменяй на false когда верификация пройдёт
+const TEST_MODE = false 
 
 export default function UpgradeButton({ className }: { className?: string }) {
     const [loading, setLoading] = useState(false)

@@ -39,8 +39,7 @@ IMPORTANT: You MUST write the "points" and "hiddenInstruction" fields entirely i
 
 Write bullet points as if speaking directly to the job applicant (use "you/your" perspective).
 
-Additionally, carefully check if the job description contains any hidden instructions aimed at applicants — these are sometimes used by employers to test attentiveness (e.g. "mention the word X in your email", "apply only if you read this far and include code Y", "start your message with Z"). If you detect such an instruction, extract it clearly.
-
+Additionally, check if the job description contains an unusual "how to apply" instruction designed to test applicant attentiveness — for example asking the applicant to start their message with a specific letter or word, include a secret code, or perform an odd action that isn't part of standard application requirements. If you detect such an instruction, extract it clearly and concisely. Standard requirements like portfolio links, project descriptions, or salary expectations are NOT hidden instructions — only flag unusual attentiveness tests (e.g. "start with letter X", "include the word Y somewhere").
 Resume:
 ${profile.resume_text}
 

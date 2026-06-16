@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const company = document.getElementById('company').value.trim()
         const position = document.getElementById('position').value.trim()
         const status = document.getElementById('status').value
-        const description = document.getElementById('description').value.trim()
+        const description = document.getElementById('description-controlled').value.trim()
 
         if (!company || !position) {
             showStatus('Company and position are required', 'error')

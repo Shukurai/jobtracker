@@ -3,6 +3,7 @@
 import { useState,useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import UpgradeButton from '@/components/ui/UpgradeButton'
 
 export default function SettingsPage() {
     const [newPassword, setNewPassword] = useState('')
@@ -211,12 +212,7 @@ export default function SettingsPage() {
                     <p className="text-xs text-muted mb-4 leading-relaxed">
                         You're on the Free plan — up to 15 applications.
                     </p>
-                    <a
-                    href="/board"
-                    className="inline-block py-2.5 px-4 bg-text text-bg rounded-lg text-sm font-semibold hover:opacity-90 transition-colors cursor-pointer no-underline"
-                        >
-                    Upgrade to Pro →
-                </a>
+                    <UpgradeButton className="inline-block" />
             </>
                 )}
         </div>

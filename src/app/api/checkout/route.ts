@@ -27,10 +27,16 @@ export async function POST() {
         }
     )
 
+    console.log('Checkout response:', JSON.stringify(checkout, null, 2))
+
     const url = checkout.data?.data?.attributes?.url ??
         (checkout as any)?.data?.attributes?.url ??
         (checkout as any)?.url
 
+    if (!url) {
+        return NextResponse.json({ error: 'Failed to create checkout', debug: checkout }, { status: 500 })
+    }
 
     return NextResponse.json({ url })
+
 }

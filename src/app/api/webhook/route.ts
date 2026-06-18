@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
             .upsert({ id: userId, is_pro: true })
     }
 
-    if (eventName === 'subscription_cancelled' || eventName === 'subscription_expired') {
+    if (eventName === 'subscription_expired') {
         await supabase
             .from('profiles')
             .upsert({ id: userId, is_pro: false })

@@ -102,6 +102,7 @@ export default async function LandingPage() {
                             </p>
                             <a
                             href="https://chromewebstore.google.com/detail/jobtracker/ngplhafpemmhllcceeabofhldggdmbnd"
+                            target="_blank"
                             className="inline-flex items-center gap-2 bg-text text-bg px-6 py-3 rounded-xl text-sm font-bold no-underline hover:opacity-90 transition-opacity"
                             >
                             🧩 Add to Chrome — it's free

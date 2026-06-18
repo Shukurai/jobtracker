@@ -134,7 +134,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </div>
                 )}
                 {/* Get Extension */}
-                <a href="https://chromewebstore.google.com/detail/jobtracker/ngplhafpemmhllcceeabofhldggdmbnd" className="flex items-center gap-2.5 px-3 py-2 mx-0 mb-2 rounded-lg no-underline border border-warning/30 bg-warning/5 hover:bg-warning/10 transition-all"
+                <a href="https://chromewebstore.google.com/detail/jobtracker/ngplhafpemmhllcceeabofhldggdmbnd" 
+                target="_blank"
+                className="flex items-center gap-2.5 px-3 py-2 mx-0 mb-2 rounded-lg no-underline border border-warning/30 bg-warning/5 hover:bg-warning/10 transition-all"
                 >
                     <span className="text-base">🧩</span>
                     <span className="text-xs font-semibold text-warning">Get Chrome Extension</span>

@@ -19,7 +19,6 @@ import { useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 
-
 function getDateColor(dateStr: string): string {
     const days = daysSince(dateStr)
     if (days <= 7) return '#22C55E'
@@ -210,10 +209,14 @@ function DroppableColumn({
     selectionMode,
     selectedIds,
     onToggleSelect,
+    sortDesc,
+    onToggleSort,
 }: {
     col: typeof COLUMNS[0]
     cards: Application[]
     isOver: boolean
+    sortDesc: boolean
+    onToggleSort: () => void
     onClick: (app: Application) => void
     onAdd: (status: ApplicationStatus) => void
     selectionMode: boolean
@@ -229,13 +232,18 @@ function DroppableColumn({
                 ${cards.length === 0 ? 'hidden md:block' : ''}
                 ${isOver ? 'ring-1 ring-border bg-surface-hover' : ''}`}
         >
-            <div className="flex items-center gap-2 mb-3 px-1">
-                <span className="w-2 h-2 rounded-full" style={{ background: col.color }} />
+            <div 
+                className="flex items-center gap-2 mb-3 px-1 cursor-pointer select-none"
+                onClick={onToggleSort}
+                title="Click to sort by date"
+            >
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: col.color }} />
                 <span className="text-xs font-semibold text-muted uppercase tracking-wider">
                     {col.label}
                 </span>
+                <span className="text-xs text-muted">{sortDesc ? '↑' : '↓'}</span>
                 <span className="text-xs text-muted ml-auto">{cards.length}</span>
-            </div>
+        </div>
             {!selectionMode && (
                 <button
                     onClick={() => onAdd(col.id)}
@@ -290,6 +298,7 @@ export default function KanbanBoard({
     const [overId, setOverId] = useState<string | null>(null)
     const supabase = createClient()
 
+    const [sortDesc, setSortDesc] = useState<Record<string, boolean>>({})
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
     const sensors = useSensors(
@@ -305,7 +314,7 @@ export default function KanbanBoard({
             .sort((a, b) => {
                 const dateA = new Date(a.applied_at ?? a.created_at).getTime()
                 const dateB = new Date(b.applied_at ?? b.created_at).getTime()
-                return dateA - dateB
+                return sortDesc[status] ? dateB - dateA : dateA - dateB
             })
 
     
@@ -352,6 +361,8 @@ export default function KanbanBoard({
                         selectionMode={selectionMode}
                         selectedIds={selectedIds}
                         onToggleSelect={onToggleSelect}
+                        sortDesc={sortDesc[col.id] ?? false}
+                        onToggleSort={() => setSortDesc(prev => ({ ...prev, [col.id]: !prev[col.id] }))}
                     />
                 ))}
             </div>
